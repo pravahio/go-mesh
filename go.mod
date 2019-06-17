@@ -32,4 +32,6 @@ require (
 
 replace github.com/upperwal/go-libp2p-quic-transport v0.3.0 => ../go-libp2p-quic-transport
 
+replace github.com/libp2p/go-libp2p-pubsub v0.1.0 => ../go-libp2p-pubsub
+
 replace github.com/upperwal/go-stun v0.0.1 => /Users/abhishek/go/src/github.com/upperwal/go-stun

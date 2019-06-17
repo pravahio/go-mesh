@@ -6,10 +6,10 @@ func NewEthDriver() *EthDriver {
 	return &EthDriver{}
 }
 
-func (eth *EthDriver) Subscribe() {
-
+func (eth *EthDriver) Subscribe() error {
+	return nil
 }
 
-func (eth *EthDriver) Publish() {
-
+func (eth *EthDriver) Publish() error {
+	return nil
 }

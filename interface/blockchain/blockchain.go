@@ -2,8 +2,8 @@ package blockchain
 
 type Blockchain interface {
 	// Subscriber specific
-	Subscribe()
+	Subscribe() error
 
 	// Publisher specific
-	Publish()
+	Publish() error
 }

@@ -1,6 +1,6 @@
-package bcinterface
+package blockchain
 
-type BlockchainDriver interface {
+type Blockchain interface {
 	// Subscriber specific
 	Subscribe()
 

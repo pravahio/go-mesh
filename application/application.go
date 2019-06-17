@@ -54,14 +54,14 @@ func NewApplication(ctx context.Context, privKey crypto.PrivKey, cert *x509.Cert
 	if err != nil {
 		return nil, err
 	}
-	/* err = a.startDHT(a.ctx)
+	err = a.startDHT(a.ctx)
 	if err != nil {
 		return nil, err
 	}
 	err = a.startGossip(a.ctx)
 	if err != nil {
 		return nil, err
-	} */
+	}
 
 	return a, nil
 }
@@ -89,15 +89,15 @@ func (app *Application) GetService(name string) service.ServiceData {
 	return app.ServiceMap[name]
 }
 
-func (app *Application) InjectService(srv service.ApplicationLinker) {
+func (app *Application) InjectService(srv service.Service) {
 	name := srv.(service.Service).GetName()
 	protocol := srv.(service.Service).GetProtocol()
 
 	app.ServiceMapMutex.Lock()
-	app.ServiceMap[name] = srv.(service.ServiceData)
+	app.ServiceMap[name] = srv
 	app.ServiceMapMutex.Unlock()
 
-	app.h.SetStreamHandler(protocol, srv.(service.Service).Run)
+	app.h.SetStreamHandler(protocol, srv.Run)
 	srv.SetAppMeta(app.GetService, &app.h, app.l.dht, app.l.psub)
 }
 

@@ -24,6 +24,8 @@ type ApplicationLinker interface {
 
 // Service defines a generic service.
 type Service interface {
+	ApplicationLinker
+	ServiceData
 	GetName() string
 	GetVersion() uint
 	GetProtocol() protocol.ID

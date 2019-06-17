@@ -8,6 +8,7 @@ import (
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
 	floodsub "github.com/libp2p/go-libp2p-pubsub"
+	fpubsub "github.com/upperwal/go-mesh/pubsub"
 )
 
 type libp2pNodeServices struct {
@@ -59,6 +60,7 @@ func (app *Application) startGossip(ctx context.Context) error {
 		return err
 	}
 
+	gossip.SetInOutPeerFilter(fpubsub.NewFilter())
 	app.l.psub = gossip
 	return nil
 }

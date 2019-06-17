@@ -17,14 +17,6 @@ type libp2pNodeServices struct {
 
 func (app *Application) startNode(ctx context.Context, privKey crypto.PrivKey) error {
 
-	// GenerateKeyPair takes approx 2s
-	/* t := time.Now()
-	prvKey, _, err := crypto.GenerateKeyPair(crypto.RSA, 2048)
-	if err != nil {
-		return err
-	}
-	log.Info("Time: ", time.Since(t)) */
-
 	quicTransport, err := getQUICTransport(privKey)
 	if err != nil {
 		log.Error(err)

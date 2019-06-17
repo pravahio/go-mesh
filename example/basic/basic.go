@@ -25,7 +25,10 @@ func main() {
 	logging.SetLogLevel("svc-bootstrap", "DEBUG")
 
 	ctx := context.Background()
-	app := application.NewApplication(ctx)
+	app, err := application.NewApplication(ctx, nil, nil)
+	if err != nil {
+		fmt.Print(err)
+	}
 	hostSrv := host.NewHostService()
 	infraSrv := infra.NewInfraService()
 	bootstrapSrv := bootstrap.NewBootstrapService(true, "hgghj", BootstrapPeers)

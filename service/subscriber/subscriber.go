@@ -1,12 +1,12 @@
- package subscriber
+package subscriber
 
 import (
 	"context"
 
 	logging "github.com/ipfs/go-log"
 	inet "github.com/libp2p/go-libp2p-core/network"
-	service "github.com/upperwal/go-mesh/interface/service"
 	bc "github.com/upperwal/go-mesh/interface/blockchain"
+	service "github.com/upperwal/go-mesh/interface/service"
 )
 
 var log = logging.Logger("svc-subscriber")
@@ -17,16 +17,26 @@ const (
 	VERSION = 1
 )
 
+type TopicName string
+
 type SubscriberService struct {
 	service.ApplicationContainer
 
 	blockchain bc.Blockchain
+
+	// Pubsub related
+	topicTracker map[TopicName]*TopicWrapper
+
+	// Context
+	ctx context.Context
 }
 
 func NewSubscriberService(b bc.Blockchain) *SubscriberService {
 	ss := &SubscriberService{
-		blockchain: b,
+		blockchain:   b,
+		topicTracker: make(map[TopicName]*TopicWrapper),
 	}
+
 	ss.SetNameVersion(NAME, VERSION)
 
 	return ss
@@ -35,7 +45,7 @@ func NewSubscriberService(b bc.Blockchain) *SubscriberService {
 func (subService *SubscriberService) Start(ctx context.Context) error {
 	log.Info(subService.GetName(), "service started")
 
-	subService.blockchain.Subscribe()
+	subService.ctx = ctx
 
 	log.Info(subService.GetName(), "sub")
 

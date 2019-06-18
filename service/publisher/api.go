@@ -1,7 +1,7 @@
 package publisher
 
 func (pubService *PublisherService) RegisterToPublish(topic TopicName) error {
-	err := pubService.blockchain.Publish()
+	err := pubService.ra.Publish()
 	if err != nil {
 		return err
 	}

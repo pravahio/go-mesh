@@ -22,7 +22,7 @@ type TopicName string
 type SubscriberService struct {
 	service.ApplicationContainer
 
-	blockchain bc.Blockchain
+	ra bc.RemoteAccess
 
 	// Pubsub related
 	topicTracker map[TopicName]*TopicWrapper
@@ -31,9 +31,9 @@ type SubscriberService struct {
 	ctx context.Context
 }
 
-func NewSubscriberService(b bc.Blockchain) *SubscriberService {
+func NewSubscriberService(r bc.RemoteAccess) *SubscriberService {
 	ss := &SubscriberService{
-		blockchain:   b,
+		ra:           r,
 		topicTracker: make(map[TopicName]*TopicWrapper),
 	}
 

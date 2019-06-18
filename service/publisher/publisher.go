@@ -22,7 +22,7 @@ type TopicName string
 type PublisherService struct {
 	service.ApplicationContainer
 
-	blockchain bc.Blockchain
+	ra bc.RemoteAccess
 
 	// Pubsub related
 	//topicTracker map[TopicName]*TopicWrapper
@@ -31,9 +31,9 @@ type PublisherService struct {
 	ctx context.Context
 }
 
-func NewPublisherService(b bc.Blockchain) *PublisherService {
+func NewPublisherService(r bc.RemoteAccess) *PublisherService {
 	ps := &PublisherService{
-		blockchain: b,
+		ra: r,
 	}
 
 	ps.SetNameVersion(NAME, VERSION)

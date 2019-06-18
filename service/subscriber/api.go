@@ -8,7 +8,7 @@ func (subService *SubscriberService) SubscribeToTopic(topic TopicName) (chan *pu
 	// 1. Register on the blockchain
 	// 2. Subscribe to pubsub
 
-	err := subService.blockchain.Subscribe()
+	err := subService.ra.Subscribe()
 	if err != nil {
 		return nil, err
 	}

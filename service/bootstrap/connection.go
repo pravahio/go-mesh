@@ -2,6 +2,8 @@ package bootstrap
 
 import (
 	addr "github.com/ipfs/go-ipfs-addr"
+	peer "github.com/libp2p/go-libp2p-core/peer"
+	discovery "github.com/libp2p/go-libp2p-discovery"
 	pstore "github.com/libp2p/go-libp2p-peerstore"
 )
 
@@ -13,7 +15,10 @@ func (bs *BootstrapService) startBootstrapping() error {
 
 	rendezvousPoint, _ := v1b.Sum([]byte(bs.rendezvousPoint)) */
 
-	return bs.connectToBootstrapPeers()
+	bs.connectToBootstrapPeers()
+	bs.AnnounceAndFind()
+
+	return nil
 }
 
 func (bs *BootstrapService) connectToBootstrapPeers() error {
@@ -44,4 +49,39 @@ func (bs *BootstrapService) connectToBootstrapPeers() error {
 	}
 
 	return nil
+}
+
+func (bs *BootstrapService) AnnounceAndFind() {
+	dht := bs.GetDHT()
+	host := bs.GetHost()
+
+	routingDiscovery := discovery.NewRoutingDiscovery(dht)
+	discovery.Advertise(bs.ctxLocal, routingDiscovery, bs.rendezvousPoint)
+	log.Debug("Successfully announced!")
+
+	// Now, look for others who have announced
+	// This is like your friend telling you the location to meet you.
+	log.Debug("Searching for other peers...")
+	peerChan, err := routingDiscovery.FindPeers(bs.ctxLocal, bs.rendezvousPoint)
+	if err != nil {
+		panic(err)
+	}
+
+	for p := range peerChan {
+		if p.ID == host.ID() {
+			continue
+		}
+		log.Debug("Found peer:", p)
+
+		go func(pi peer.AddrInfo) {
+			err := host.Connect(bs.ctxLocal, pi)
+
+			if err != nil {
+				log.Warning("Connection failed:", err)
+				return
+			}
+
+			log.Info("Connected to:", pi)
+		}(p)
+	}
 }

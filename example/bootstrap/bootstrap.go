@@ -12,7 +12,6 @@ import (
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	inet "github.com/libp2p/go-libp2p-core/network"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
-	floodsub "github.com/libp2p/go-libp2p-pubsub"
 	ma "github.com/multiformats/go-multiaddr"
 	libp2pquic "github.com/upperwal/go-libp2p-quic-transport"
 )
@@ -69,11 +68,11 @@ func main() {
 		panic(err)
 	}
 
-	g, err := floodsub.NewGossipSub(ctx, host)
+	/* g, err := floodsub.NewGossipSub(ctx, host)
 	if err != nil {
 		panic(err)
-	}
-	g.Subscribe("GGN.BUS")
+	} */
+	//g.Subscribe("GGN.BUS")
 
 	host.SetStreamHandler("BOOTSTRAP", handler)
 

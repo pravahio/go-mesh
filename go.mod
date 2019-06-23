@@ -36,9 +36,11 @@ require (
 	github.com/pborman/uuid v1.2.0 // indirect
 	github.com/rjeczalik/notify v0.9.2 // indirect
 	github.com/rs/cors v1.6.0 // indirect
+	github.com/stretchr/objx v0.1.1 // indirect
 	github.com/upperwal/go-libp2p-quic-transport v0.3.0
 	go.opencensus.io v0.22.0 // indirect
 	golang.org/x/net v0.0.0-20190613194153-d28f0bde5980 // indirect
+	golang.org/x/oauth2 v0.0.0-20190226205417-e64efc72b421 // indirect
 	golang.org/x/sys v0.0.0-20190616124812-15dcb6c0061f // indirect
 	google.golang.org/grpc v1.20.1
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package rpc;
+
+service Mesh {
+    rpc RegisterToPublish(PeerTopicInfo) returns (Response) {}
+    rpc Publish(stream PublishData) returns (Response) {}
+    rpc Subscribe(PeerTopicInfo) returns (stream Data) {}
+}
+
+message PeerTopicInfo {
+    string peer = 1;
+    string topic = 2;
+}
+
+message PublishData {
+    PeerTopicInfo info = 1;
+    Data data = 2;
+}
+
+message Response {
+    string message = 1;
+}
+
+message Data {
+    bytes raw = 1;
+}

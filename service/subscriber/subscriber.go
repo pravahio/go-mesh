@@ -17,15 +17,13 @@ const (
 	VERSION = 1
 )
 
-type TopicName string
-
 type SubscriberService struct {
 	service.ApplicationContainer
 
 	ra bc.RemoteAccess
 
 	// Pubsub related
-	topicTracker map[TopicName]*TopicWrapper
+	topicTracker map[string]*TopicWrapper
 
 	// Context
 	ctx context.Context
@@ -34,7 +32,7 @@ type SubscriberService struct {
 func NewSubscriberService(r bc.RemoteAccess) *SubscriberService {
 	ss := &SubscriberService{
 		ra:           r,
-		topicTracker: make(map[TopicName]*TopicWrapper),
+		topicTracker: make(map[string]*TopicWrapper),
 	}
 
 	ss.SetNameVersion(NAME, VERSION)

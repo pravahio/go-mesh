@@ -1,7 +1,8 @@
 package publisher
 
-func (pubService *PublisherService) RegisterToPublish(topic TopicName) error {
-	err := pubService.ra.Publish()
+func (pubService *PublisherService) RegisterToPublish(topic string) error {
+	host := pubService.GetHost()
+	err := pubService.ra.Publish(host.ID(), topic)
 	if err != nil {
 		return err
 	}
@@ -9,8 +10,8 @@ func (pubService *PublisherService) RegisterToPublish(topic TopicName) error {
 	return nil
 }
 
-func (pubService *PublisherService) PublishData(topic TopicName, data []byte) error {
-	err := pubService.GetPubSub().Publish(string(topic), data)
+func (pubService *PublisherService) PublishData(topic string, data []byte) error {
+	err := pubService.GetPubSub().Publish(topic, data)
 	if err != nil {
 		return err
 	}

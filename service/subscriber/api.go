@@ -4,11 +4,12 @@ import (
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 )
 
-func (subService *SubscriberService) SubscribeToTopic(topic TopicName) (chan *pubsub.Message, error) {
+func (subService *SubscriberService) SubscribeToTopic(topic string) (chan *pubsub.Message, error) {
 	// 1. Register on the blockchain
 	// 2. Subscribe to pubsub
 
-	err := subService.ra.Subscribe()
+	host := subService.GetHost()
+	err := subService.ra.Subscribe(host.ID(), string(topic))
 	if err != nil {
 		return nil, err
 	}
@@ -16,7 +17,7 @@ func (subService *SubscriberService) SubscribeToTopic(topic TopicName) (chan *pu
 	// Transaction on the blockchain won't be reflect immediately.
 	// TODO: So, wait before sending a sub message.
 
-	sub, err := subService.GetPubSub().Subscribe(string(topic))
+	sub, err := subService.GetPubSub().Subscribe(topic)
 	if err != nil {
 		return nil, err
 	}

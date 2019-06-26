@@ -8,12 +8,15 @@ import (
 	peer "github.com/libp2p/go-libp2p-core/peer"
 )
 
-const (
+var (
 	contractStaticAddress = "0xf0d731661b7cd29a6677f8255d74e075f412a77d"
 	ethClientAddress      = "http://127.0.0.1:7545"
 )
 
-func loadContract() (*ethclient.Client, *Eth, error) {
+func loadContract(URI string) (*ethclient.Client, *Eth, error) {
+	if URI != "" {
+		ethClientAddress = URI
+	}
 	c, err := ethclient.Dial(ethClientAddress)
 	if err != nil {
 		return nil, nil, err

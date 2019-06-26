@@ -22,14 +22,14 @@ type EthDriver struct {
 	opt    *bind.TransactOpts
 }
 
-func NewEthDriver() (ra.RemoteAccess, error) {
+func NewEthDriver(URI string) (ra.RemoteAccess, error) {
 
 	k, err := crypto.HexToECDSA("ca4d39951406d9ea7b0e40d0cddc3c977012331ad26d0b0289dda673392bc177")
 	if err != nil {
 		return nil, err
 	}
 
-	c, e, err := loadContract()
+	c, e, err := loadContract(URI)
 	if err != nil {
 		return nil, err
 	}

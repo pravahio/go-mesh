@@ -26,7 +26,7 @@ func NewApplication() (*Application, error) {
 		return nil, err
 	}
 
-	ethDriver, err := driver.NewEthDriver()
+	ethDriver, err := driver.NewEthDriver("")
 	if err != nil {
 		return nil, err
 	}

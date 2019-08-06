@@ -1,5 +1,9 @@
 package publisher
 
+import (
+	"errors"
+)
+
 func (pubService *PublisherService) RegisterToPublish(topic string) error {
 	host := pubService.GetHost()
 	err := pubService.ra.Publish(host.ID(), topic)
@@ -11,7 +15,11 @@ func (pubService *PublisherService) RegisterToPublish(topic string) error {
 }
 
 func (pubService *PublisherService) PublishData(topic string, data []byte) error {
-	err := pubService.GetPubSub().Publish(topic, data)
+	pubRouter := pubService.GetPubSub()
+	if pubRouter == nil {
+		return errors.New("Publisher is null")
+	}
+	err := pubRouter.Publish(topic, data)
 	if err != nil {
 		return err
 	}

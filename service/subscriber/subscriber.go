@@ -5,7 +5,7 @@ import (
 
 	logging "github.com/ipfs/go-log"
 	inet "github.com/libp2p/go-libp2p-core/network"
-	bc "github.com/upperwal/go-mesh/interface/blockchain"
+	bc "github.com/upperwal/go-mesh/interface/ra"
 	service "github.com/upperwal/go-mesh/interface/service"
 )
 

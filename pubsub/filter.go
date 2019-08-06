@@ -4,19 +4,19 @@ import (
 	cache "github.com/bluele/gcache"
 	logging "github.com/ipfs/go-log"
 	peer "github.com/libp2p/go-libp2p-core/peer"
-	bc "github.com/upperwal/go-mesh/interface/blockchain"
+	ra "github.com/upperwal/go-mesh/interface/ra"
 )
 
 var log = logging.Logger("fpubsub")
 
 type Filter struct {
-	r bc.RemoteAccess
+	r ra.RemoteAccess
 	c cache.Cache
 }
 
-func NewFilter(ra bc.RemoteAccess) *Filter {
+func NewFilter(r ra.RemoteAccess) *Filter {
 	return &Filter{
-		r: ra,
+		r: r,
 		c: cache.New(50).LRU().Build(),
 	}
 }

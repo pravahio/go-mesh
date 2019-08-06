@@ -23,7 +23,10 @@ type Config struct {
 	BootstrapRendezvous string
 
 	// Remote Access
-	RemoteAccessURI string
+	RemoteAccessURI string // TODO: what about the contract address?????
+
+	// RPC
+	RPC []RPCConfig
 }
 
 // NewConfig return new configuration with default or new options set.

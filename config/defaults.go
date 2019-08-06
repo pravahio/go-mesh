@@ -1,5 +1,9 @@
 package config
 
+import (
+	"strconv"
+)
+
 // Alias for true and false
 var (
 	True  = true
@@ -39,6 +43,17 @@ var DefaultRemoteAccessURI = func(cfg *Config) error {
 	return nil
 }
 
+// DefaultRPCConfig defines listen address and mode of RPC
+var DefaultRPCConfig = func(cfg *Config) error {
+	cfg.RPC = []RPCConfig{
+		RPCConfig{
+			Endpoint: RpcURI + strconv.Itoa(RpcPort),
+			Mode:     "raw",
+		},
+	}
+	return nil
+}
+
 // Defaults contains the conditions for which defaults are defined.
 var Defaults = []struct {
 	Fallback func(cfg *Config) bool
@@ -63,6 +78,10 @@ var Defaults = []struct {
 	{
 		Fallback: func(cfg *Config) bool { return cfg.RemoteAccessURI == "" },
 		Opt:      DefaultRemoteAccessURI,
+	},
+	{
+		Fallback: func(cfg *Config) bool { return cfg.RPC == nil },
+		Opt:      DefaultRPCConfig,
 	},
 }
 

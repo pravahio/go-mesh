@@ -92,7 +92,6 @@ func GenerateAccount() (*x509.Certificate, crypto.PrivKey, []byte, error) {
 	if err != nil {
 		return nil, nil, nil, err
 	}
-	fmt.Println(cer.Subject.Organization)
 
 	return cer, prvKey, certDER, nil
 }

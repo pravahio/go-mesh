@@ -1,128 +1,152 @@
-package main
+package server
 
 import (
-	"context"
-	"io"
+	"fmt"
 	"net"
-	"os"
+	"net/http"
+	"time"
 
+	grpcweb "github.com/improbable-eng/grpc-web/go/grpcweb"
 	logging "github.com/ipfs/go-log"
+	config "github.com/upperwal/go-mesh/config"
+	mesh "github.com/upperwal/go-mesh/mesh"
 	rpc "github.com/upperwal/go-mesh/rpc"
 	grpc "google.golang.org/grpc"
 )
 
-var log = logging.Logger("rpc-server")
+var (
+	log = logging.Logger("rpc-server")
+)
 
-type server struct {
-	app *Application
+// RPCServer brings compatibility for raw (http/2) and web (http/1.1) RPC
+type RPCServer interface {
+	Serve(net.Listener) error
+	Stop()
 }
 
-func (s *server) RegisterToPublish(ctx context.Context, info *rpc.PeerTopicInfo) (*rpc.Response, error) {
-	err := s.app.pubService.RegisterToPublish(info.GetTopic())
+// LisServer is a container for RPC Listener and Server
+type LisServer struct {
+	Listener net.Listener
+	Server   RPCServer
+}
+
+// Server is the RPC server and contains variables needed for RPC to work.
+type Server struct {
+	m    *mesh.Mesh
+	lmap map[string]*LisServer
+}
+
+// NewServer creates a new RPC server.
+func NewServer(m *mesh.Mesh) (*Server, error) {
+
+	s := Server{
+		m:    m,
+		lmap: make(map[string]*LisServer),
+	}
+
+	err := s.registerRPC(m.Cfg.RPC)
 	if err != nil {
 		return nil, err
 	}
 
-	log.Info("[RPC] Registered to publish on ", info.GetTopic())
-
-	return &rpc.Response{
-		Message: "ok",
-	}, nil
+	return &s, nil
 }
 
-func (s *server) Publish(stream rpc.Mesh_PublishServer) error {
-	ctx := stream.Context()
+func (s *Server) registerRPC(rpcConfig []config.RPCConfig) error {
 
-	for {
-		select {
-		case <-ctx.Done():
-			log.Info("Done")
-			return nil
-		default:
-		}
-
-		data, err := stream.Recv()
-		if err == io.EOF {
-			return stream.SendAndClose(&rpc.Response{
-				Message: "ok",
-			})
-		}
+	for _, r := range rpcConfig {
+		log.Info("RPC End: ", r.Endpoint)
+		lis, err := net.Listen("tcp", r.Endpoint)
 		if err != nil {
+			s.CleanUp()
+			return err
+		}
+		s.lmap[r.Mode] = &LisServer{
+			Listener: lis,
+		}
+	}
+
+	return nil
+}
+
+func (s *Server) Start() {
+	grpcServer := grpc.NewServer()
+	rpc.RegisterMeshServer(grpcServer, s)
+
+	for m, ls := range s.lmap {
+		dyServer := buildServer(grpcServer, m)
+		if dyServer == nil {
+			log.Warning("RPC Server is nil. Check the mode you passed.")
 			continue
 		}
 
-		info := data.GetInfo()
-		msg := data.GetData()
+		ls.Server = dyServer
 
-		log.Info("[RPC] Publishing data on", info.GetTopic())
+		log.Info("Starting serveServer")
+		serveServer(m, dyServer, ls.Listener)
+		log.Info("Started serveServer")
+	}
+}
 
-		err = s.app.pubService.PublishData(info.GetTopic(), msg.GetRaw())
+// Shutdown all RPC server currently running.
+func (s *Server) Shutdown() {
+	for _, ls := range s.lmap {
+		ls.Server.Stop()
+		ls.Listener.Close()
+	}
+}
 
-		if err != nil {
-			log.Warning(err)
+// CleanUp the RPC server.
+func (s *Server) CleanUp() {
+	for _, ls := range s.lmap {
+		if ls != nil {
+			ls.Listener.Close()
 		}
 	}
 }
 
-func (s *server) Subscribe(info *rpc.PeerTopicInfo, stream rpc.Mesh_SubscribeServer) error {
-	log.Info("[RPC] Subscribing to ", info.GetTopic())
-
-	ctx := stream.Context()
-
-	msgChan, err := s.app.subService.SubscribeToTopic(info.GetTopic())
-	if err != nil {
-		return err
-	}
-
-	for {
-		select {
-		case <-ctx.Done():
-			return nil
-		default:
-		}
-
-		data := <-msgChan
-
-		err := stream.Send(&rpc.Data{
-			Raw: data.GetData(),
-		})
-
-		if err != nil {
-			log.Warning(err)
-		}
-	}
-}
-
-func main() {
+/* func (s *server) Servepp() {
 	enableLogging()
+	handleFlags()
 
-	port := "5555"
+	ilog.SetOutput(os.Stderr)
 
-	log.Info("Starting RPC server on 127.0.0.1:" + port)
+	log.Info("Starting RPC server on " + *ip + ":" + *port)
 
-	lis, err := net.Listen("tcp", "127.0.0.1:"+port)
+	lis, err := net.Listen("tcp", *ip+":"+*port)
 	if err != nil {
-		os.Exit(0)
+		log.Fatal(err)
 	}
 
 	s := grpc.NewServer()
 
+	log.Info("New app created")
 	a, err := NewApplication()
 	if err != nil {
-		log.Error(err)
+		log.Fatal(err)
 	}
 	a.AddSubscriber()
 	a.AddPublisher()
 	a.Start()
 
+	log.Info("App started")
+
 	rpc.RegisterMeshServer(s, &server{a})
 
-	if err = s.Serve(lis); err != nil {
-		os.Exit(0)
+	dyServer := buildServer(s, *mode)
+	if dyServer == nil {
+		log.Error("Server is nil. Check the mode you passed.")
+		os.Exit(-1)
 	}
-}
 
-func enableLogging() {
+	log.Info("Starting serveServer")
+	serveServer(dyServer, lis)
+	log.Info("Started serveServer")
+
+	select {}
+} */
+
+/* func enableLogging() {
 	logging.SetLogLevel("rpc-server", "DEBUG")
 	logging.SetLogLevel("svc-bootstrap", "DEBUG")
 	logging.SetLogLevel("application", "DEBUG")
@@ -131,4 +155,40 @@ func enableLogging() {
 	logging.SetLogLevel("fpubsub", "DEBUG")
 	logging.SetLogLevel("pubsub", "DEBUG")
 	logging.SetLogLevel("eth-driver", "DEBUG")
+} */
+
+func buildServer(s *grpc.Server, ty string) RPCServer {
+	switch ty {
+	case "raw":
+		return s
+	case "web":
+		options := []grpcweb.Option{
+			grpcweb.WithCorsForRegisteredEndpointsOnly(false),
+			grpcweb.WithOriginFunc(func(o string) bool {
+				return true
+			}),
+		}
+
+		wrappedGrpc := grpcweb.WrapServer(s, options...)
+
+		return &WrapperHTTP{
+			ser: &http.Server{
+				WriteTimeout: 1 * time.Hour,
+				ReadTimeout:  10 * time.Second,
+				Handler: http.HandlerFunc(func(resp http.ResponseWriter, req *http.Request) {
+					wrappedGrpc.ServeHTTP(resp, req)
+				}),
+			},
+		}
+	}
+	return nil
+}
+
+func serveServer(ty string, server RPCServer, listener net.Listener) {
+	go func() {
+		fmt.Printf("RPC server [%s] started on: %s\n", ty, listener.Addr())
+		if err := server.Serve(listener); err != nil {
+			log.Error(err)
+		}
+	}()
 }

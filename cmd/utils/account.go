@@ -55,6 +55,8 @@ func AccountCommandHandler(ctx *cli.Context) {
 		parse(f)
 		return
 	}
+
+	cli.ShowCommandHelpAndExit(ctx, "account", 0)
 }
 
 func createAccount(ctx *cli.Context) error {
@@ -91,12 +93,15 @@ func createAccount(ctx *cli.Context) error {
 	keyMap["RAPrivKey"] = encodeEthPrivKey
 	keyMap["Libp2pPrivKey"] = encodedLibp2pPrivKey
 
+	fn := "mesh.msa"
 	if n := ctx.String(ACCOUNT_OUTPUT_FILENAME); n != "" {
-		err := writeToFile(n, keyMap)
-		if err != nil {
-			fmt.Println(err)
-			return err
-		}
+		fn = n
+	}
+
+	err = writeToFile(fn, keyMap)
+	if err != nil {
+		fmt.Println(err)
+		return err
 	}
 
 	if ctx.Bool(PRINT_ACCOUNT_ID) {

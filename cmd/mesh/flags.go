@@ -30,22 +30,22 @@ var (
 
 	bootstrapRendezvous = cli.StringFlag{
 		Name:  RENDEZVOUS,
-		Usage: "Set rendezvous point for bootstrapping",
+		Usage: "set rendezvous point for bootstrapping",
 	}
 
 	enablePublisher = cli.BoolFlag{
 		Name:  ENABLE_PUB,
-		Usage: "Starts a publisher node.",
+		Usage: "starts a publisher node.",
 	}
 
 	enableSubscriber = cli.BoolFlag{
 		Name:  ENABLE_SUB,
-		Usage: "Starts a subscriber node.",
+		Usage: "starts a subscriber node.",
 	}
 
 	disableRPC = cli.BoolFlag{
 		Name:  DISABLE_RPC,
-		Usage: "No RPC will be started.",
+		Usage: "no RPC will be started.",
 	}
 
 	enableWebRPC = cli.BoolFlag{
@@ -55,17 +55,17 @@ var (
 
 	enableDebugging = cli.BoolFlag{
 		Name:  DEBUG,
-		Usage: "Enables debug log printing.",
+		Usage: "enables debug log printing.",
 	}
 
 	accountFile = cli.StringFlag{
 		Name:  ACCOUNT,
-		Usage: ".msa account file",
+		Usage: "account file (.msa)",
 	}
 
 	configFile = cli.StringFlag{
 		Name:  CONFIG_FILE,
-		Usage: ".json account file",
+		Usage: "config file (.json)",
 	}
 )
 

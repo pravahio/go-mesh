@@ -38,6 +38,9 @@ func init() {
 		accountFile,
 		configFile,
 	}
+	app.Commands = []cli.Command{
+		accountCommand,
+	}
 }
 
 func mesh(ctx *cli.Context) {

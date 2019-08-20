@@ -1,8 +1,8 @@
 package mesh
 
 import (
-	"fmt"
 	"context"
+	"fmt"
 
 	application "github.com/upperwal/go-mesh/application"
 	config "github.com/upperwal/go-mesh/config"
@@ -47,7 +47,7 @@ func NewMesh(ctx context.Context, opt ...config.Option) (*Mesh, error) {
 		return nil, err
 	}
 
-	ethDriver, err := driver.NewEthDriver(cfg.RemoteAccessURI)
+	ethDriver, err := driver.NewEthDriver(cfg.RemoteAccessURI, cfg.RemoteAccessPrivateKey)
 	if err != nil {
 		return nil, err
 	}

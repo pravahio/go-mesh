@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"io/ioutil"
 	"strconv"
 
@@ -12,18 +11,18 @@ import (
 )
 
 type Config struct {
-	ConfigMap map[string]interface{}
+	ConfigMap map[string]string
 }
 
 func NewConfig(ctx *cli.Context) *Config {
 	c := &Config{
-		ConfigMap: make(map[string]interface{}),
+		ConfigMap: make(map[string]string),
 	}
 
 	configFile := ctx.String(CONFIG_FILE)
 
 	c.applyConfigFromFile(configFile, ctx)
-	//c.applyConfigFromConsole(ctx)
+	c.applyConfigFromConsole(ctx)
 
 	return c
 }
@@ -43,7 +42,6 @@ func (c *Config) applyConfigFromFile(file string, ctx *cli.Context) error {
 
 	// TODO: Is passed key in our config or user passing some bogus key config.
 	for k, v := range parsedVal {
-		fmt.Println(k, v)
 		c.ConfigMap[k] = v
 	}
 
@@ -53,16 +51,18 @@ func (c *Config) applyConfigFromFile(file string, ctx *cli.Context) error {
 func (c *Config) applyConfigFromConsole(ctx *cli.Context) {
 	for _, n := range ctx.GlobalFlagNames() {
 		g := ctx.Generic(n)
-		if g == nil {
+
+		v := g.(flag.Value).String()
+		if v == "false" || v == "" {
 			continue
 		}
-		c.ConfigMap[n] = g
+		c.ConfigMap[n] = v
 	}
 }
 
 func (c *Config) Bool(n string) bool {
 	if val, ok := c.ConfigMap[n]; ok {
-		parsed, err := strconv.ParseBool(val.(flag.Value).String())
+		parsed, err := strconv.ParseBool(val)
 		if err != nil {
 			return false
 		}
@@ -72,8 +72,9 @@ func (c *Config) Bool(n string) bool {
 }
 
 func (c *Config) String(n string) string {
+
 	if val, ok := c.ConfigMap[n]; ok {
-		return val.(string)
+		return val
 	}
 	return ""
 }

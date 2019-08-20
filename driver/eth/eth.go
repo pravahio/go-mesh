@@ -3,7 +3,7 @@ package eth
 import (
 	"context"
 	"crypto/ecdsa"
-	"errors"
+	"fmt"
 	"math/big"
 
 	bind "github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -27,7 +27,13 @@ type EthDriver struct {
 func NewEthDriver(URI string, prvKey *ecdsa.PrivateKey) (ra.RemoteAccess, error) {
 
 	if prvKey == nil {
-		return nil, errors.New("RA Private Key is nil")
+		var err error
+		prvKey, err = CreateNewAccount()
+		if err != nil {
+			return nil, err
+		}
+		fmt.Println("Creating a new account. It might not be able to do any transaction.")
+		log.Info("Creating a new account: ")
 	}
 
 	c, e, err := loadContract(URI)

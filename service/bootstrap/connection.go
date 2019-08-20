@@ -16,6 +16,7 @@ func (bs *BootstrapService) startBootstrapping() error {
 	rendezvousPoint, _ := v1b.Sum([]byte(bs.rendezvousPoint)) */
 
 	bs.connectToBootstrapPeers()
+	// TODO: Wait for connectToBootstrapPeers to complete before proceeding.
 	bs.AnnounceAndFind()
 
 	return nil

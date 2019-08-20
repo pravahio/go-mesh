@@ -5,20 +5,21 @@ import (
 )
 
 const (
-	REMOTE_ACCESS    = "ra"
-	BOOTSTRAP_SERVER = "bs"
-	RENDEZVOUS       = "rnz"
-	ENABLE_PUB       = "en_pub"
-	ENABLE_SUB       = "en_sub"
-	DISABLE_RPC      = "dis_raw_rpc"
-	ENABLE_WEB_RPC   = "web_rpc"
-	DEBUG            = "debug"
-	ACCOUNT          = "account"
+	REMOTE_ACCESS_URL = "ra"
+	BOOTSTRAP_SERVER  = "bs"
+	RENDEZVOUS        = "rnz"
+	ENABLE_PUB        = "en_pub"
+	ENABLE_SUB        = "en_sub"
+	DISABLE_RPC       = "dis_raw_rpc"
+	ENABLE_WEB_RPC    = "web_rpc"
+	DEBUG             = "debug"
+	ACCOUNT           = "account"
+	CONFIG_FILE       = "config_file"
 )
 
 var (
 	remoteAccess = cli.StringFlag{
-		Name:  REMOTE_ACCESS,
+		Name:  REMOTE_ACCESS_URL,
 		Usage: "remote access url. [http://127.0.0.1:7545]",
 	}
 
@@ -60,6 +61,11 @@ var (
 	accountFile = cli.StringFlag{
 		Name:  ACCOUNT,
 		Usage: ".msa account file",
+	}
+
+	configFile = cli.StringFlag{
+		Name:  CONFIG_FILE,
+		Usage: ".json account file",
 	}
 )
 

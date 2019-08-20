@@ -1,6 +1,7 @@
 package config
 
 import (
+	"crypto/ecdsa"
 	"crypto/x509"
 
 	logging "github.com/ipfs/go-log"
@@ -23,7 +24,8 @@ type Config struct {
 	BootstrapRendezvous string
 
 	// Remote Access
-	RemoteAccessURI string // TODO: what about the contract address?????
+	RemoteAccessURI        string // TODO: what about the contract address?????
+	RemoteAccessPrivateKey *ecdsa.PrivateKey
 
 	// RPC
 	RPC []RPCConfig

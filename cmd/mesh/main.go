@@ -108,7 +108,13 @@ func getBootRendz(b string) config.Option {
 }
 
 func getBootServer(b string) config.Option {
-	bs := strings.Split(b, ",")
+	var bs []string
+	if b == "" {
+		bs = nil
+	} else {
+		bs = strings.Split(b, ",")
+	}
+
 	return func(cfg *config.Config) error {
 		cfg.BootstrapNodes = bs
 		return nil

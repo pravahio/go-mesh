@@ -35,30 +35,33 @@ func init() {
 		enableWebRPC,
 		enableDebugging,
 		accountFile,
+		configFile,
 	}
 }
 
 func mesh(ctx *cli.Context) {
 
-	applyLogs(ctx.Bool(DEBUG))
+	c := NewConfig(ctx)
+
+	applyLogs(c.Bool(DEBUG))
 
 	m, err := mclient.NewMesh(
 		context.Background(),
-		getBootRendz(ctx.String(RENDEZVOUS)),
-		getBootServer(ctx.String(BOOTSTRAP_SERVER)),
-		applyRA(ctx.String(REMOTE_ACCESS)),
+		getBootRendz(c.String(RENDEZVOUS)),
+		getBootServer(c.String(BOOTSTRAP_SERVER)),
+		applyRA(c.String(REMOTE_ACCESS_URL)),
 	)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	applyNodeType(
-		ctx.Bool(ENABLE_PUB),
-		ctx.Bool(ENABLE_SUB),
+		c.Bool(ENABLE_PUB),
+		c.Bool(ENABLE_SUB),
 		m,
 	)
 
-	applyRPC(m.Cfg, ctx.Bool(ENABLE_WEB_RPC), ctx.Bool(DISABLE_RPC))
+	applyRPC(m.Cfg, c.Bool(ENABLE_WEB_RPC), c.Bool(DISABLE_RPC))
 	rpcs, err := rpc.NewServer(m)
 	if err != nil {
 		log.Fatal(err)

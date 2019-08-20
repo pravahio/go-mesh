@@ -2,6 +2,7 @@ package utils
 
 import (
 	"bytes"
+	"crypto/ecdsa"
 	"encoding/gob"
 	"errors"
 	"fmt"
@@ -137,33 +138,39 @@ func readFromFile(fileName string) (map[string][]byte, error) {
 }
 
 func parse(fileName string) {
-	fmt.Println("Parsing file: ", fileName)
-	m, err := readFromFile(fileName)
-	if err != nil {
-		fmt.Println(err)
-	}
-	for k, v := range m {
 
-		println(k, v)
-	}
+	libPriv, ethPriv, err := GetLibp2pAndRAPrivKey(fileName)
 
-	ethPriv, err := ethcrypto.ToECDSA(m["RAPrivKey"])
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	libPriv, err := libcrypto.UnmarshalPrivateKey(m["Libp2pPrivKey"])
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	peerId, err := peer.IDFromPrivateKey(libPriv)
+	peerID, err := peer.IDFromPrivateKey(libPriv)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	ethAdd := ethcrypto.PubkeyToAddress(ethPriv.PublicKey)
 
-	fmt.Println("Peer ID: ", peerId)
+	fmt.Println("Peer ID: ", peerID)
 	fmt.Println("Auth Add: ", ethAdd.String())
+}
+
+func GetLibp2pAndRAPrivKey(filename string) (libcrypto.PrivKey, *ecdsa.PrivateKey, error) {
+	m, err := readFromFile(filename)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	if len(m) != 2 {
+		return nil, nil, errors.New("need 2 keys in .msa file")
+	}
+
+	ethPriv, err := ethcrypto.ToECDSA(m["RAPrivKey"])
+	if err != nil {
+		return nil, nil, err
+	}
+
+	libPriv, err := libcrypto.UnmarshalPrivateKey(m["Libp2pPrivKey"])
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return libPriv, ethPriv, nil
 }

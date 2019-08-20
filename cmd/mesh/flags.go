@@ -13,7 +13,7 @@ const (
 	DISABLE_RPC       = "dis_raw_rpc"
 	ENABLE_WEB_RPC    = "web_rpc"
 	DEBUG             = "debug"
-	ACCOUNT           = "account"
+	ACCOUNT_FILE      = "account"
 	CONFIG_FILE       = "config_file"
 )
 
@@ -59,7 +59,7 @@ var (
 	}
 
 	accountFile = cli.StringFlag{
-		Name:  ACCOUNT,
+		Name:  ACCOUNT_FILE,
 		Usage: "account file (.msa)",
 	}
 

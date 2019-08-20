@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	logging "github.com/ipfs/go-log"
+	utils "github.com/upperwal/go-mesh/cmd/utils"
 	"github.com/upperwal/go-mesh/config"
 	mclient "github.com/upperwal/go-mesh/mesh"
 	rpc "github.com/upperwal/go-mesh/rpc/server"
@@ -49,11 +50,23 @@ func mesh(ctx *cli.Context) {
 
 	applyLogs(c.Bool(DEBUG))
 
-	m, err := mclient.NewMesh(
-		context.Background(),
+	//fmt.Println(c.ConfigMap)
+
+	accL, accR := applyAccountFile(c.String(ACCOUNT_FILE))
+
+	opt := []config.Option{
 		getBootRendz(c.String(RENDEZVOUS)),
 		getBootServer(c.String(BOOTSTRAP_SERVER)),
 		applyRA(c.String(REMOTE_ACCESS_URL)),
+	}
+
+	if accL != nil && accR != nil {
+		opt = append(opt, accL, accR)
+	}
+
+	m, err := mclient.NewMesh(
+		context.Background(),
+		opt...,
 	)
 	if err != nil {
 		log.Fatal(err)
@@ -109,6 +122,21 @@ func applyRA(s string) config.Option {
 		cfg.RemoteAccessURI = s
 		return nil
 	}
+}
+
+func applyAccountFile(fn string) (config.Option, config.Option) {
+	libp2pPriv, raPriv, err := utils.GetLibp2pAndRAPrivKey(fn)
+	if err != nil {
+		return nil, nil
+	}
+	return func(cfg *config.Config) error {
+			cfg.AccountPrvKey = libp2pPriv
+			return nil
+		},
+		func(cfg *config.Config) error {
+			cfg.RemoteAccessPrivateKey = raPriv
+			return nil
+		}
 }
 
 func applyRPC(m *config.Config, en_web, dis_raw bool) {

@@ -27,7 +27,7 @@ type EthDriver struct {
 func NewEthDriver(URI string, prvKey *ecdsa.PrivateKey) (ra.RemoteAccess, error) {
 
 	if prvKey == nil {
-		return nil, errors.New("Private Key is nil")
+		return nil, errors.New("RA Private Key is nil")
 	}
 
 	c, e, err := loadContract(URI)

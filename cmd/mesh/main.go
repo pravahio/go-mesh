@@ -50,8 +50,6 @@ func mesh(ctx *cli.Context) {
 
 	applyLogs(c.Bool(DEBUG))
 
-	//fmt.Println(c.ConfigMap)
-
 	accL, accR := applyAccountFile(c.String(ACCOUNT_FILE))
 
 	opt := []config.Option{

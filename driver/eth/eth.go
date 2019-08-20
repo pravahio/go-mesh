@@ -3,6 +3,7 @@ package eth
 import (
 	"context"
 	"crypto/ecdsa"
+	"errors"
 	"math/big"
 
 	bind "github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -15,18 +16,18 @@ import (
 
 var log = logging.Logger("eth-driver")
 
+// EthDriver implements "RemoteAccess".
 type EthDriver struct {
 	client *ethclient.Client
-	eth    *Eth
+	ether  *Eth
 	key    *ecdsa.PrivateKey
 	opt    *bind.TransactOpts
 }
 
-func NewEthDriver(URI string) (ra.RemoteAccess, error) {
+func NewEthDriver(URI string, prvKey *ecdsa.PrivateKey) (ra.RemoteAccess, error) {
 
-	k, err := crypto.HexToECDSA("ca4d39951406d9ea7b0e40d0cddc3c977012331ad26d0b0289dda673392bc177")
-	if err != nil {
-		return nil, err
+	if prvKey == nil {
+		return nil, errors.New("Private Key is nil")
 	}
 
 	c, e, err := loadContract(URI)
@@ -34,12 +35,12 @@ func NewEthDriver(URI string) (ra.RemoteAccess, error) {
 		return nil, err
 	}
 
-	o := createTransOpt(k)
+	o := createTransOpt(prvKey)
 
 	return &EthDriver{
 		client: c,
-		eth:    e,
-		key:    k,
+		ether:  e,
+		key:    prvKey,
 		opt:    o,
 	}, nil
 }
@@ -61,7 +62,7 @@ func (eth *EthDriver) Subscribe(p peer.ID, topic string) error {
 	}
 	log.Info("Address: ", a.String())
 
-	t, err := eth.eth.Subscribe(eth.opt, a, topic)
+	t, err := eth.ether.Subscribe(eth.opt, a, topic)
 	if err != nil {
 		log.Info(t, err)
 		return err
@@ -86,7 +87,7 @@ func (eth *EthDriver) Publish(p peer.ID, topic string) error {
 	}
 	log.Info("Address: ", a.String())
 
-	t, err := eth.eth.Publish(eth.opt, a, topic)
+	t, err := eth.ether.Publish(eth.opt, a, topic)
 	if err != nil {
 		return err
 	}
@@ -103,7 +104,7 @@ func (eth *EthDriver) IsPeerAPublisher(p peer.ID, t string) (bool, error) {
 		return false, err
 	}
 
-	v, err := eth.eth.IsPeerAPublisher(nil, a, t)
+	v, err := eth.ether.IsPeerAPublisher(nil, a, t)
 	if err != nil {
 		return false, err
 	}
@@ -121,7 +122,7 @@ func (eth *EthDriver) IsPeerSubscribed(p peer.ID, t string) (bool, error) {
 	}
 	log.Info("Key: ", a.String())
 
-	v, err := eth.eth.IsPeerSubscribed(nil, a, t)
+	v, err := eth.ether.IsPeerSubscribed(nil, a, t)
 	if err != nil {
 		return false, err
 	}

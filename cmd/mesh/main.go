@@ -4,6 +4,7 @@ import (
 	"context"
 	"os"
 	"strconv"
+	"strings"
 
 	logging "github.com/ipfs/go-log"
 	utils "github.com/upperwal/go-mesh/cmd/utils"
@@ -107,10 +108,9 @@ func getBootRendz(b string) config.Option {
 }
 
 func getBootServer(b string) config.Option {
+	bs := strings.Split(b, ",")
 	return func(cfg *config.Config) error {
-		cfg.BootstrapNodes = []string{
-			b,
-		}
+		cfg.BootstrapNodes = bs
 		return nil
 	}
 }

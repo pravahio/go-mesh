@@ -72,7 +72,7 @@ func (app *Application) Start() error {
 		go func(srv service.Service) {
 			err := srv.Start(app.ctx)
 			if err != nil {
-				log.Error("Error while Starting service:", srv.GetName(), ". Service exiting with error: ", err)
+				log.Error("Error while Starting service:\x1B[35m", srv.GetName(), "\x1B[0m=> Service exiting with error: \x1B[31m", err, "\x1B[0m")
 				return
 			}
 		}(srv.(service.Service))

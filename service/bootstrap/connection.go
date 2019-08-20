@@ -15,9 +15,15 @@ func (bs *BootstrapService) startBootstrapping() error {
 
 	rendezvousPoint, _ := v1b.Sum([]byte(bs.rendezvousPoint)) */
 
-	bs.connectToBootstrapPeers()
+	err := bs.connectToBootstrapPeers()
+	if err != nil {
+		return err
+	}
 	// TODO: Wait for connectToBootstrapPeers to complete before proceeding.
-	bs.AnnounceAndFind()
+	err = bs.announceAndFind()
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -52,7 +58,7 @@ func (bs *BootstrapService) connectToBootstrapPeers() error {
 	return nil
 }
 
-func (bs *BootstrapService) AnnounceAndFind() {
+func (bs *BootstrapService) announceAndFind() error {
 	dht := bs.GetDHT()
 	host := bs.GetHost()
 
@@ -65,7 +71,7 @@ func (bs *BootstrapService) AnnounceAndFind() {
 	log.Debug("Searching for other peers...")
 	peerChan, err := routingDiscovery.FindPeers(bs.ctxLocal, bs.rendezvousPoint)
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	for p := range peerChan {
@@ -85,4 +91,5 @@ func (bs *BootstrapService) AnnounceAndFind() {
 			log.Info("Connected to:", pi)
 		}(p)
 	}
+	return nil
 }

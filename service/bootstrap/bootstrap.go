@@ -55,7 +55,6 @@ func (bs *BootstrapService) Start(ctx context.Context) error {
 
 	err := bs.startBootstrapping()
 	if err != nil {
-		log.Error(err)
 
 		bs.ready = false
 		for _, rChan := range bs.readyChanList {

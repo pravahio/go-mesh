@@ -50,8 +50,11 @@ func (hs *HostService) Start(ctx context.Context) error {
 	r, err := bootstrapSvc.Get("ready")
 	if err != nil {
 		return err
-	} else {
-		log.Info("Is bootstrap ready: ", <-r)
+	}
+
+	ready := (<-r).(bool)
+	if !ready {
+		return errors.New("Something is wrong with bootstrap service")
 	}
 
 	return nil

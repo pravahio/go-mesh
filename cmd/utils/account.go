@@ -107,6 +107,7 @@ func createAccount(ctx *cli.Context) error {
 	if ctx.Bool(PRINT_ACCOUNT_ID) {
 		fmt.Println("Peer ID: ", peerId)
 		fmt.Println("Auth Add: ", ethAdd.String())
+		fmt.Printf("Auth Priv Key: %x\n", encodeEthPrivKey)
 	}
 
 	return nil
@@ -155,6 +156,7 @@ func parse(fileName string) {
 
 	fmt.Println("Peer ID: ", peerID)
 	fmt.Println("Auth Add: ", ethAdd.String())
+	fmt.Printf("Auth Priv Key: %x\n", ethcrypto.FromECDSA(ethPriv))
 }
 
 func GetLibp2pAndRAPrivKey(filename string) (libcrypto.PrivKey, *ecdsa.PrivateKey, error) {

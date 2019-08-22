@@ -8,13 +8,13 @@ const (
 	REMOTE_ACCESS_URL = "ra"
 	BOOTSTRAP_SERVER  = "bs"
 	RENDEZVOUS        = "rnz"
-	ENABLE_PUB        = "en_pub"
-	ENABLE_SUB        = "en_sub"
-	DISABLE_RPC       = "dis_raw_rpc"
-	ENABLE_WEB_RPC    = "web_rpc"
+	ENABLE_PUB        = "en-pub"
+	ENABLE_SUB        = "en-sub"
+	DISABLE_RPC       = "dis-raw-rpc"
+	ENABLE_WEB_RPC    = "web-rpc"
 	DEBUG             = "debug"
 	ACCOUNT_FILE      = "account"
-	CONFIG_FILE       = "config_file"
+	CONFIG_FILE       = "c"
 )
 
 var (

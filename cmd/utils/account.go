@@ -11,11 +11,14 @@ import (
 	cli "gopkg.in/urfave/cli.v1"
 
 	ethcrypto "github.com/ethereum/go-ethereum/crypto"
+	logging "github.com/ipfs/go-log"
 	libcrypto "github.com/libp2p/go-libp2p-core/crypto"
 	peer "github.com/libp2p/go-libp2p-core/peer"
 	eth "github.com/upperwal/go-mesh/driver/eth"
-	utils "github.com/upperwal/go-mesh/util/account"
+	account "github.com/upperwal/go-mesh/util/account"
 )
+
+var log = logging.Logger("cmd/utils")
 
 var (
 	CREATE_ACCOUNT          = "c"
@@ -67,7 +70,7 @@ func createAccount(ctx *cli.Context, name string) error {
 		return err
 	}
 
-	_, privKey, _, err := utils.GenerateAccount()
+	_, privKey, _, err := account.GenerateAccount()
 	if err != nil {
 		return err
 	}

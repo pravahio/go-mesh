@@ -29,7 +29,12 @@ type Application struct {
 	ctxCancelFunc context.CancelFunc
 }
 
-func NewApplication(ctx context.Context, privKey crypto.PrivKey, cert *x509.Certificate) (*Application, error) {
+func NewApplication(
+	ctx context.Context,
+	privKey crypto.PrivKey,
+	cert *x509.Certificate,
+	host, port string,
+) (*Application, error) {
 
 	appCtx, appCancel := context.WithCancel(ctx)
 
@@ -50,7 +55,7 @@ func NewApplication(ctx context.Context, privKey crypto.PrivKey, cert *x509.Cert
 		log.Info("New account generated")
 	}
 
-	err = a.startNode(a.ctx, privKey)
+	err = a.startNode(a.ctx, privKey, host, port)
 	if err != nil {
 		return nil, err
 	}

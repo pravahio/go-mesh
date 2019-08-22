@@ -90,12 +90,12 @@ func generateAccountWithSeed(s int64) error {
 	writeToFile("boot.msa", m)
 	fmt.Println("Writing account data to: boot.msa")
 
-	peerId, err := peer.IDFromPrivateKey(prvKey)
+	peerID, err := peer.IDFromPrivateKey(prvKey)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println("Peer ID: ", peerId)
+	fmt.Println("Peer ID: ", peerID)
 
 	return nil
 }

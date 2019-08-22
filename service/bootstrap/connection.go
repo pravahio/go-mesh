@@ -33,6 +33,9 @@ func (bs *BootstrapService) startBootstrapping() error {
 func (bs *BootstrapService) connectToBootstrapPeers() error {
 	host := bs.GetHost()
 	for _, peerAddr := range bs.bootstrapPeers {
+		if host.ID().Pretty() == peerAddr {
+			continue
+		}
 		ipfsAddr, err := addr.ParseString(peerAddr)
 		if err != nil {
 			return err

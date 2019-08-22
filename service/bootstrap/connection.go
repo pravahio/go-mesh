@@ -50,8 +50,6 @@ func (bs *BootstrapService) connectToBootstrapPeers() error {
 			log.Info("Connectivity with bootstrap peer success! Peer: ", peerAddr)
 		}
 
-		log.Info("Proto: ", bs.GetProtocol())
-		host.SetStreamHandler(bs.GetProtocol(), bs.Run)
 		bs.s, err = host.NewStream(bs.ctxLocal, peerInfo.ID, bs.GetProtocol())
 		if err != nil {
 			return err

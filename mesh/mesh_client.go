@@ -42,6 +42,8 @@ func NewMesh(ctx context.Context, opt ...config.Option) (*Mesh, error) {
 		ctx,
 		cfg.AccountPrvKey,
 		cfg.AccountCert,
+		cfg.Host,
+		cfg.Port,
 	)
 	if err != nil {
 		return nil, err

@@ -29,6 +29,10 @@ type Config struct {
 
 	// RPC
 	RPC []RPCConfig
+
+	// Listening socket
+	Host string
+	Port string
 }
 
 // NewConfig return new configuration with default or new options set.

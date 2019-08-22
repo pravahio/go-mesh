@@ -17,6 +17,7 @@ import (
 
 const (
 	BOOT_RNZ = "/BOOT_RNZ"
+	PORT     = "4000"
 )
 
 var (
@@ -169,6 +170,8 @@ func boot(k crypto.PrivKey) {
 		ctx,
 		k,
 		nil,
+		"0.0.0.0",
+		PORT,
 	)
 	if err != nil {
 		log.Warning(err)

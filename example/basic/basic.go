@@ -25,7 +25,7 @@ func main() {
 	logging.SetLogLevel("svc-bootstrap", "DEBUG")
 
 	ctx := context.Background()
-	app, err := application.NewApplication(ctx, nil, nil)
+	app, err := application.NewApplication(ctx, nil, nil, "0.0.0.0", "0")
 	if err != nil {
 		fmt.Print(err)
 	}

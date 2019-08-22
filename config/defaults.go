@@ -54,6 +54,18 @@ var DefaultRPCConfig = func(cfg *Config) error {
 	return nil
 }
 
+// DefaultHostString defines host to listen on
+var DefaultHostString = func(cfg *Config) error {
+	cfg.Host = "0.0.0.0"
+	return nil
+}
+
+// DefaultPortString defines port to listen on
+var DefaultPortString = func(cfg *Config) error {
+	cfg.Port = "0"
+	return nil
+}
+
 // Defaults contains the conditions for which defaults are defined.
 var Defaults = []struct {
 	Fallback func(cfg *Config) bool
@@ -82,6 +94,14 @@ var Defaults = []struct {
 	{
 		Fallback: func(cfg *Config) bool { return cfg.RPC == nil },
 		Opt:      DefaultRPCConfig,
+	},
+	{
+		Fallback: func(cfg *Config) bool { return cfg.Host == "" },
+		Opt:      DefaultHostString,
+	},
+	{
+		Fallback: func(cfg *Config) bool { return cfg.Port == "" },
+		Opt:      DefaultPortString,
 	},
 }
 

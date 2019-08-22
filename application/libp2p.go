@@ -2,6 +2,7 @@ package application
 
 import (
 	"context"
+	"fmt"
 
 	libp2p "github.com/libp2p/go-libp2p"
 	circuit "github.com/libp2p/go-libp2p-circuit"
@@ -15,7 +16,7 @@ type libp2pNodeServices struct {
 	psub *floodsub.PubSub
 }
 
-func (app *Application) startNode(ctx context.Context, privKey crypto.PrivKey) error {
+func (app *Application) startNode(ctx context.Context, privKey crypto.PrivKey, hostS, portS string) error {
 
 	quicTransport, err := getQUICTransport(privKey)
 	if err != nil {
@@ -25,7 +26,7 @@ func (app *Application) startNode(ctx context.Context, privKey crypto.PrivKey) e
 
 	host, err := libp2p.New(
 		ctx,
-		libp2p.ListenAddrStrings("/ip4/0.0.0.0/udp/0/quic"),
+		libp2p.ListenAddrStrings(fmt.Sprintf("/ip4/%s/udp/%s/quic", hostS, portS)),
 		libp2p.NATPortMap(),
 		libp2p.Identity(privKey),
 		libp2p.Transport(quicTransport),

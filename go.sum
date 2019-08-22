@@ -325,8 +325,6 @@ github.com/syndtr/goleveldb v1.0.0 h1:fBdIW9lB4Iz0n9khmH8w27SJ3QEJ7+IgjPEwGSZiFd
 github.com/syndtr/goleveldb v1.0.0/go.mod h1:ZVVdQEZoIme9iO1Ch2Jdy24qqXrMMOU6lpPAyBWyWuQ=
 github.com/upperwal/go-libp2p-pubsub v0.1.1-0.20190822125434-affd4e4c6c42 h1:O+iVJUm5Ff5J29J+qY8ovZ7xI1paUhNHhLX6AiNT1go=
 github.com/upperwal/go-libp2p-pubsub v0.1.1-0.20190822125434-affd4e4c6c42/go.mod h1:CrG98/JtGMpJZkVc5WhCR71vYS68ji42/YrMN7IuAHk=
-github.com/upperwal/go-libp2p-quic-transport v0.2.9 h1:MauSs4bu+d3fFv9Zn/aikNa/4sYpC0OibREYs0wzIuE=
-github.com/upperwal/go-libp2p-quic-transport v0.2.9/go.mod h1:QGu+DxBWeuEDrso0X/4GcM5JE3SslurcLrCyUruWU3o=
 github.com/upperwal/go-stun v0.0.2 h1:k38BG7uuPjNo/QtfaLTxPMeWIpkFaFN5zo2biZK/Y8g=
 github.com/upperwal/go-stun v0.0.2/go.mod h1:sCIQ47yJ3mzvRf90m/kRIjhxHCFW+iG1MGmoPG7lWVY=
 github.com/whyrusleeping/base32 v0.0.0-20170828182744-c30ac30633cc h1:BCPnHtcboadS0DvysUuJXZ4lWVv5Bh5i7+tbIyi+ck4=

@@ -6,16 +6,16 @@ import (
 	mrand "math/rand"
 	"strconv"
 
-	logging "github.com/ipfs/go-log"
-	libp2p "github.com/libp2p/go-libp2p"
-	circuit "github.com/libp2p/go-libp2p-circuit"
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
-	inet "github.com/libp2p/go-libp2p-core/network"
 	peer "github.com/libp2p/go-libp2p-core/peer"
-	dht "github.com/libp2p/go-libp2p-kad-dht"
-	libp2pquic "github.com/libp2p/go-libp2p-quic-transport"
-	ma "github.com/multiformats/go-multiaddr"
+	"github.com/upperwal/go-mesh/application"
+	cfg "github.com/upperwal/go-mesh/config"
+	bs "github.com/upperwal/go-mesh/service/bootstrap"
 	cli "gopkg.in/urfave/cli.v1"
+)
+
+const (
+	BOOT_RNZ = "/BOOT_RNZ"
 )
 
 var (
@@ -100,7 +100,7 @@ func generateAccountWithSeed(s int64) error {
 	return nil
 }
 
-type netNotifiee struct{}
+/* type netNotifiee struct{}
 
 func (nn *netNotifiee) Connected(n inet.Network, c inet.Conn) {
 	fmt.Printf("Connected to: %s/p2p/%s\n", c.RemoteMultiaddr(), c.RemotePeer().Pretty())
@@ -110,9 +110,9 @@ func (nn *netNotifiee) Disconnected(n inet.Network, v inet.Conn)   {}
 func (nn *netNotifiee) OpenedStream(n inet.Network, v inet.Stream) {}
 func (nn *netNotifiee) ClosedStream(n inet.Network, v inet.Stream) {}
 func (nn *netNotifiee) Listen(n inet.Network, a ma.Multiaddr)      {}
-func (nn *netNotifiee) ListenClose(n inet.Network, a ma.Multiaddr) {}
+func (nn *netNotifiee) ListenClose(n inet.Network, a ma.Multiaddr) {} */
 
-func boot(k crypto.PrivKey) {
+/* func boot(k crypto.PrivKey) {
 	logging.SetLogLevel("dht", "DEBUG")
 	logging.SetLogLevel("relay", "DEBUG")
 	logging.SetLogLevel("pubsub", "DEBUG")
@@ -147,10 +147,6 @@ func boot(k crypto.PrivKey) {
 		panic(err)
 	}
 
-	/* g, err := floodsub.NewGossipSub(ctx, host)
-	if err != nil {
-		panic(err)
-	} */
 	//g.Subscribe("GGN.BUS")
 
 	host.SetStreamHandler("BOOTSTRAP", handler)
@@ -160,4 +156,30 @@ func boot(k crypto.PrivKey) {
 
 func handler(s inet.Stream) {
 	fmt.Println("New stream from: ", s.Conn().RemotePeer())
+} */
+
+func boot(k crypto.PrivKey) {
+	ctx := context.Background()
+
+	app, err := application.NewApplication(
+		ctx,
+		k,
+		nil,
+	)
+	if err != nil {
+		log.Warning(err)
+		return
+	}
+
+	bservice := bs.NewBootstrapService(false, BOOT_RNZ, cfg.BootstrapList)
+	app.InjectService(bservice)
+
+	err = app.Start()
+	if err != nil {
+		log.Warning(err)
+		return
+	}
+
+	app.Wait()
+
 }

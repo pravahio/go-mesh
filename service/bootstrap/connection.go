@@ -1,6 +1,8 @@
 package bootstrap
 
 import (
+	"time"
+
 	addr "github.com/ipfs/go-ipfs-addr"
 	peer "github.com/libp2p/go-libp2p-core/peer"
 	discovery "github.com/libp2p/go-libp2p-discovery"
@@ -48,11 +50,15 @@ func (bs *BootstrapService) connectToBootstrapPeers() error {
 			log.Info("Connectivity with bootstrap peer success! Peer: ", peerAddr)
 		}
 
-		bs.s, err = host.NewStream(bs.ctxLocal, peerInfo.ID, "BOOTSTRAP")
+		log.Info("Proto: ", bs.GetProtocol())
+		host.SetStreamHandler(bs.GetProtocol(), bs.Run)
+		bs.s, err = host.NewStream(bs.ctxLocal, peerInfo.ID, bs.GetProtocol())
 		if err != nil {
 			return err
 		}
 		log.Info("Started new bootstrap stream")
+
+		go bs.Run(bs.s)
 	}
 
 	return nil
@@ -66,30 +72,40 @@ func (bs *BootstrapService) announceAndFind() error {
 	discovery.Advertise(bs.ctxLocal, routingDiscovery, bs.rendezvousPoint)
 	log.Debug("Successfully announced!")
 
-	// Now, look for others who have announced
-	// This is like your friend telling you the location to meet you.
-	log.Debug("Searching for other peers...")
-	peerChan, err := routingDiscovery.FindPeers(bs.ctxLocal, bs.rendezvousPoint)
-	if err != nil {
-		return err
-	}
+	ticker := time.NewTicker(15 * time.Second)
 
-	for p := range peerChan {
-		if p.ID == host.ID() {
-			continue
+	for {
+		log.Debug("Searching for other peers...")
+		peerChan, err := routingDiscovery.FindPeers(bs.ctxLocal, bs.rendezvousPoint)
+		if err != nil {
+			return err
 		}
-		log.Debug("Found peer:", p)
 
-		go func(pi peer.AddrInfo) {
-			err := host.Connect(bs.ctxLocal, pi)
-
-			if err != nil {
-				log.Warning("Connection failed:", err)
-				return
+		for p := range peerChan {
+			if p.ID == host.ID() {
+				continue
 			}
+			log.Debug("Found peer:", p)
 
-			log.Info("Connected to:", pi)
-		}(p)
+			go func(pi peer.AddrInfo) {
+				err := host.Connect(bs.ctxLocal, pi)
+
+				if err != nil {
+					log.Warning("Connection failed:", err)
+					return
+				}
+
+				log.Info("Connected to:", pi)
+			}(p)
+		}
+
+		select {
+		case <-bs.ctxLocal.Done():
+			ticker.Stop()
+		default:
+		}
+
+		<-ticker.C
 	}
 	return nil
 }

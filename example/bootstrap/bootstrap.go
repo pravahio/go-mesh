@@ -12,8 +12,8 @@ import (
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	inet "github.com/libp2p/go-libp2p-core/network"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
+	libp2pquic "github.com/libp2p/go-libp2p-quic-transport"
 	ma "github.com/multiformats/go-multiaddr"
-	libp2pquic "github.com/upperwal/go-libp2p-quic-transport"
 )
 
 type netNotifiee struct{}
@@ -43,7 +43,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	tpt, err := libp2pquic.NewTransport(prvKey, libp2pquic.TransportOpt{})
+	tpt, err := libp2pquic.NewTransport(prvKey)
 	if err != nil {
 		panic(err)
 	}

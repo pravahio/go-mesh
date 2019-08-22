@@ -1,5 +1,5 @@
 {
     "rnz": "BUS",
     "account": "mesh.msa",
-    "bs": ["/ip4/192.168.0.105/udp/4000/quic/p2p/QmVbcMycaK8ni5CeiM7JRjBRAdmwky6dQ6KcoxLesZDPk9"]
+    "bs": ["/ip4/13.234.78.241/udp/4000/quic/p2p/QmVbcMycaK8ni5CeiM7JRjBRAdmwky6dQ6KcoxLesZDPk9"]
 }

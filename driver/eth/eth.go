@@ -33,7 +33,7 @@ func NewEthDriver(URI string, prvKey *ecdsa.PrivateKey) (ra.RemoteAccess, error)
 			return nil, err
 		}
 		fmt.Println("Creating a new account. It might not be able to do any transaction.")
-		log.Info("Creating a new account: ")
+		log.Info("Creating a new account.")
 	}
 
 	c, e, err := loadContract(URI)

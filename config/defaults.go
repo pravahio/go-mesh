@@ -24,7 +24,7 @@ var DefaultAccountCert = func(cfg *Config) error {
 
 // DefaultBootstrapNodes assigns few nodes helping in bootstrapping.
 var DefaultBootstrapNodes = func(cfg *Config) error {
-	cfg.BootstrapNodes = bootstrapList
+	cfg.BootstrapNodes = BootstrapList
 	return nil
 }
 

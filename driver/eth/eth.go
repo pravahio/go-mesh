@@ -70,7 +70,6 @@ func (eth *EthDriver) Subscribe(p peer.ID, topic string) error {
 
 	t, err := eth.ether.Subscribe(eth.opt, a, topic)
 	if err != nil {
-		log.Info(t, err)
 		return err
 	}
 	log.Info("Trans Hash: ", t.Hash().String())
@@ -139,7 +138,7 @@ func createTransOpt(k *ecdsa.PrivateKey) *bind.TransactOpts {
 	auth := bind.NewKeyedTransactor(k)
 	auth.Value = big.NewInt(0)
 	auth.GasPrice = big.NewInt(20000000000)
-	auth.GasLimit = uint64(6721975)
+	auth.GasLimit = uint64(600000)
 
 	return auth
 }

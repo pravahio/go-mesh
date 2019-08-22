@@ -161,6 +161,8 @@ func handler(s inet.Stream) {
 func boot(k crypto.PrivKey) {
 	ctx := context.Background()
 
+	fmt.Println("Running Bootstrap node...")
+
 	app, err := application.NewApplication(
 		ctx,
 		k,
@@ -179,6 +181,8 @@ func boot(k crypto.PrivKey) {
 		log.Warning(err)
 		return
 	}
+
+	fmt.Println("Waiting for others to connect")
 
 	app.Wait()
 

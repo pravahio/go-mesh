@@ -42,6 +42,7 @@ func init() {
 	}
 	app.Commands = []cli.Command{
 		accountCommand,
+		boostrapCommand,
 	}
 }
 

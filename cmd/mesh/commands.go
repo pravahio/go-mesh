@@ -17,4 +17,18 @@ var (
 			utils.ParseAccountFile,
 		},
 	}
+
+	boostrapCommand = cli.Command{
+		Name:   "bootstrap",
+		Action: utils.BoostrapCommandHandler,
+		Usage:  "handles bootstrap related functions",
+		Flags: []cli.Flag{
+			utils.CreateAccountFlag,
+			utils.AccountOutputFileNameFlag,
+			utils.PrintPublicKeyFlag,
+			utils.ParseAccountFile,
+			utils.BootstrapAccountFlag,
+			utils.BootstrapAccountSeedFlag,
+		},
+	}
 )

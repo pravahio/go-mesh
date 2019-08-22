@@ -48,7 +48,7 @@ var (
 
 func AccountCommandHandler(ctx *cli.Context) {
 	if ctx.Bool(CREATE_ACCOUNT) {
-		createAccount(ctx)
+		createAccount(ctx, "mesh.msa")
 		return
 	}
 	if f := ctx.String(PARSE); f != "" {
@@ -59,7 +59,7 @@ func AccountCommandHandler(ctx *cli.Context) {
 	cli.ShowCommandHelpAndExit(ctx, "account", 0)
 }
 
-func createAccount(ctx *cli.Context) error {
+func createAccount(ctx *cli.Context, name string) error {
 	keyMap := make(map[string][]byte)
 
 	ethPrivKey, err := eth.CreateNewAccount()
@@ -93,7 +93,7 @@ func createAccount(ctx *cli.Context) error {
 	keyMap["RAPrivKey"] = encodeEthPrivKey
 	keyMap["Libp2pPrivKey"] = encodedLibp2pPrivKey
 
-	fn := "mesh.msa"
+	fn := name
 	if n := ctx.String(ACCOUNT_OUTPUT_FILENAME); n != "" {
 		fn = n
 	}
@@ -143,20 +143,40 @@ func readFromFile(fileName string) (map[string][]byte, error) {
 	return m, nil
 }
 
-func parse(fileName string) {
+func parse(filename string) {
 
-	libPriv, ethPriv, err := GetLibp2pAndRAPrivKey(fileName)
-
-	peerID, err := peer.IDFromPrivateKey(libPriv)
+	m, err := readFromFile(filename)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Can't read from account file")
+		return
 	}
 
-	ethAdd := ethcrypto.PubkeyToAddress(ethPriv.PublicKey)
+	if v, ok := m["Libp2pPrivKey"]; ok {
+		libPriv, err := GetLibp2pPrivKey(v)
+		if err != nil {
+			fmt.Println(err)
+		}
 
-	fmt.Println("Peer ID: ", peerID)
-	fmt.Println("Auth Add: ", ethAdd.String())
-	fmt.Printf("Auth Priv Key: %x\n", ethcrypto.FromECDSA(ethPriv))
+		peerID, err := peer.IDFromPrivateKey(libPriv)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Println("Peer ID: ", peerID)
+	}
+
+	if v, ok := m["RAPrivKey"]; ok {
+		ethPriv, err := GetRAPrivKey(v)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		ethAdd := ethcrypto.PubkeyToAddress(ethPriv.PublicKey)
+
+		fmt.Println("Auth Add: ", ethAdd.String())
+		fmt.Printf("Auth Priv Key: %x\n", ethcrypto.FromECDSA(ethPriv))
+	}
+
 }
 
 func GetLibp2pAndRAPrivKey(filename string) (libcrypto.PrivKey, *ecdsa.PrivateKey, error) {
@@ -169,15 +189,31 @@ func GetLibp2pAndRAPrivKey(filename string) (libcrypto.PrivKey, *ecdsa.PrivateKe
 		return nil, nil, errors.New("need 2 keys in .msa file")
 	}
 
-	ethPriv, err := ethcrypto.ToECDSA(m["RAPrivKey"])
+	ethPriv, err := GetRAPrivKey(m["RAPrivKey"])
 	if err != nil {
 		return nil, nil, err
 	}
 
-	libPriv, err := libcrypto.UnmarshalPrivateKey(m["Libp2pPrivKey"])
+	libPriv, err := GetLibp2pPrivKey(m["Libp2pPrivKey"])
 	if err != nil {
 		return nil, nil, err
 	}
 
 	return libPriv, ethPriv, nil
+}
+
+func GetRAPrivKey(r []byte) (*ecdsa.PrivateKey, error) {
+	ethPriv, err := ethcrypto.ToECDSA(r)
+	if err != nil {
+		return nil, err
+	}
+	return ethPriv, nil
+}
+
+func GetLibp2pPrivKey(r []byte) (libcrypto.PrivKey, error) {
+	libPriv, err := libcrypto.UnmarshalPrivateKey(r)
+	if err != nil {
+		return nil, err
+	}
+	return libPriv, nil
 }

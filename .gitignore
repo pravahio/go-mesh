@@ -10,3 +10,6 @@ node_modules/
 
 # Binary
 bootstrap
+
+# Binary
+bin/

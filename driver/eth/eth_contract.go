@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	contractStaticAddress = "0xf0d731661b7cd29a6677f8255d74e075f412a77d"
-	ethClientAddress      = "http://127.0.0.1:7545"
+	contractStaticAddress = "0xbAf06f0AD6aB96Fb1e5F0D2873477fc5c8e03520" //"0xf0d731661b7cd29a6677f8255d74e075f412a77d"
+	ethClientAddress      = "http://13.234.78.241:8501"
 )
 
 func loadContract(URI string) (*ethclient.Client, *Eth, error) {

@@ -6,6 +6,7 @@ import (
 	mrand "math/rand"
 	"strconv"
 
+	logging "github.com/ipfs/go-log"
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	peer "github.com/libp2p/go-libp2p-core/peer"
 	"github.com/upperwal/go-mesh/application"
@@ -161,6 +162,7 @@ func handler(s inet.Stream) {
 func boot(k crypto.PrivKey) {
 	ctx := context.Background()
 
+	logging.SetLogLevel("svc-bootstrap", "DEBUG")
 	fmt.Println("Running Bootstrap node...")
 
 	app, err := application.NewApplication(

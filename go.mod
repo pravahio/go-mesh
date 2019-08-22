@@ -26,8 +26,10 @@ require (
 	github.com/libp2p/go-libp2p-kad-dht v0.1.0
 	github.com/libp2p/go-libp2p-peerstore v0.1.1
 	github.com/libp2p/go-libp2p-pubsub v0.1.0
+	github.com/libp2p/go-libp2p-quic-transport v0.1.1
 	github.com/libp2p/go-libp2p-transport v0.1.0 // indirect
 	github.com/libp2p/go-msgio v0.0.4 // indirect
+	github.com/libp2p/go-stream-muxer v0.1.0 // indirect
 	github.com/marten-seemann/qtls v0.2.4 // indirect
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/multiformats/go-multiaddr v0.0.4
@@ -37,7 +39,7 @@ require (
 	github.com/pborman/uuid v1.2.0 // indirect
 	github.com/rjeczalik/notify v0.9.2 // indirect
 	github.com/rs/cors v1.6.0 // indirect
-	github.com/upperwal/go-libp2p-quic-transport v0.3.0
+	github.com/upperwal/go-libp2p-quic-transport v0.2.9 // indirect
 	go.opencensus.io v0.22.0 // indirect
 	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
 	golang.org/x/net v0.0.0-20190724013045-ca1201d0de80 // indirect
@@ -48,8 +50,4 @@ require (
 	gopkg.in/yaml.v2 v2.2.2 // indirect
 )
 
-replace github.com/upperwal/go-libp2p-quic-transport v0.3.0 => ../go-libp2p-quic-transport
-
-replace github.com/libp2p/go-libp2p-pubsub v0.1.0 => ../go-libp2p-pubsub
-
-replace github.com/upperwal/go-stun v0.0.1 => /Users/abhishek/go/src/github.com/upperwal/go-stun
+replace github.com/libp2p/go-libp2p-pubsub v0.1.0 => github.com/upperwal/go-libp2p-pubsub v0.1.1-0.20190822125434-affd4e4c6c42

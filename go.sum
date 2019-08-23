@@ -85,6 +85,8 @@ github.com/huin/goupnp v1.0.0/go.mod h1:n9v9KO1tAxYH82qOn+UTIFQDmx5n1Zxd/ClZDMX7
 github.com/huin/goutil v0.0.0-20170803182201-1ca381bf3150/go.mod h1:PpLOETDnJ0o3iZrZfqZzyLl6l7F3c6L1oWn7OICBi6o=
 github.com/improbable-eng/grpc-web v0.9.6 h1:B8FH/k5xv/vHovSt70GJHIB2/1+4plmvtfrz33ambuE=
 github.com/improbable-eng/grpc-web v0.9.6/go.mod h1:6hRR09jOEG81ADP5wCQju1z71g6OL4eEvELdran/3cs=
+github.com/improbable-eng/grpc-web v0.11.0 h1:drkI/L8GnHWtWeAZFB7bEUQz9bZqOf/X8Dhvsm2uV7Y=
+github.com/improbable-eng/grpc-web v0.11.0/go.mod h1:6hRR09jOEG81ADP5wCQju1z71g6OL4eEvELdran/3cs=
 github.com/ipfs/go-cid v0.0.1 h1:GBjWPktLnNyX0JiQCNFpUuUSoMw5KMyqrsejHYlILBE=
 github.com/ipfs/go-cid v0.0.1/go.mod h1:GHWU/WuQdMPmIosc4Yn1bcCT7dSeX4lBafM7iqUPQvM=
 github.com/ipfs/go-cid v0.0.2 h1:tuuKaZPU1M6HcejsO3AcYWW8sZ8MTvyxfc4uqB4eFE8=
@@ -160,6 +162,7 @@ github.com/libp2p/go-libp2p-core v0.0.1/go.mod h1:g/VxnTZ/1ygHxH3dKok7Vno1VfpvGc
 github.com/libp2p/go-libp2p-core v0.0.4/go.mod h1:jyuCQP356gzfCFtRKyvAbNkyeuxb7OlyhWZ3nls5d2I=
 github.com/libp2p/go-libp2p-core v0.0.6 h1:SsYhfWJ47vLP1Rd9/0hqEm/W/PlFbC/3YLZyLCcvo1w=
 github.com/libp2p/go-libp2p-core v0.0.6/go.mod h1:0d9xmaYAVY5qmbp/fcgxHT3ZJsLjYeYPMJAUKpaCHrE=
+github.com/libp2p/go-libp2p-core v0.2.2 h1:Sv1ggdoMx9c7v7FOFkR7agraHCnAgqYsXrU1ARSRUMs=
 github.com/libp2p/go-libp2p-crypto v0.0.1 h1:JNQd8CmoGTohO/akqrH16ewsqZpci2CbgYH/LmYl8gw=
 github.com/libp2p/go-libp2p-crypto v0.0.1/go.mod h1:yJkNyDmO341d5wwXxDUGO0LykUVT72ImHNUqh5D/dBE=
 github.com/libp2p/go-libp2p-crypto v0.1.0 h1:k9MFy+o2zGDNGsaoZl0MA3iZ75qXxr9OOoAZF+sD5OQ=

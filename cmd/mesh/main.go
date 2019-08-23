@@ -39,6 +39,9 @@ func init() {
 		enableDebugging,
 		accountFile,
 		configFile,
+		lisAdd,
+		rpcLA,
+		webRPCLA,
 	}
 	app.Commands = []cli.Command{
 		accountCommand,
@@ -54,10 +57,14 @@ func mesh(ctx *cli.Context) {
 
 	accL, accR := applyAccountFile(c.String(ACCOUNT_FILE))
 
+	lh, lp := applyListenAdd(c.String(LISTEN_ADDRESS))
+
 	opt := []config.Option{
 		getBootRendz(c.String(RENDEZVOUS)),
 		getBootServer(c.String(BOOTSTRAP_SERVER)),
 		applyRA(c.String(REMOTE_ACCESS_URL)),
+		lh,
+		lp,
 	}
 
 	if accL != nil && accR != nil {
@@ -78,7 +85,7 @@ func mesh(ctx *cli.Context) {
 		m,
 	)
 
-	applyRPC(m.Cfg, c.Bool(ENABLE_WEB_RPC), c.Bool(DISABLE_RPC))
+	applyRPC(m.Cfg, c.Bool(ENABLE_WEB_RPC), c.Bool(DISABLE_RPC), c.String(RPC_LA), c.String(WEB_RPC_LA))
 	rpcs, err := rpc.NewServer(m)
 	if err != nil {
 		log.Fatal(err)
@@ -144,17 +151,55 @@ func applyAccountFile(fn string) (config.Option, config.Option) {
 		}
 }
 
-func applyRPC(m *config.Config, en_web, dis_raw bool) {
-	if dis_raw {
+func applyRPC(m *config.Config, enWeb, disRaw bool, rpcLA, webRPCLA string) {
+	if disRaw {
 		m.RPC = []config.RPCConfig{}
+	} else {
+		if rpcLA != "" {
+			m.RPC = []config.RPCConfig{
+				config.RPCConfig{
+					Endpoint: rpcLA,
+					Mode:     "raw",
+				},
+			}
+		}
 	}
 
-	if en_web {
+	if enWeb {
+		var endpoint string
+
+		if webRPCLA != "" {
+			endpoint = webRPCLA
+		} else {
+			endpoint = config.RpcURI + strconv.Itoa(config.RpcPort+1)
+		}
+
 		m.RPC = append(m.RPC, config.RPCConfig{
-			Endpoint: config.RpcURI + strconv.Itoa(config.RpcPort+1),
+			Endpoint: endpoint,
 			Mode:     "web",
 		})
 	}
+}
+
+func applyListenAdd(s string) (config.Option, config.Option) {
+	host := ""
+	port := ""
+
+	d := strings.Split(s, ":")
+
+	if len(d) == 2 {
+		host = d[0]
+		port = d[1]
+	}
+
+	return func(cfg *config.Config) error {
+			cfg.Host = host
+			return nil
+		},
+		func(cfg *config.Config) error {
+			cfg.Port = port
+			return nil
+		}
 }
 
 func applyNodeType(p bool, s bool, m *mclient.Mesh) {

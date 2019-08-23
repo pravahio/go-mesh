@@ -15,6 +15,9 @@ const (
 	DEBUG             = "debug"
 	ACCOUNT_FILE      = "account"
 	CONFIG_FILE       = "c"
+	LISTEN_ADDRESS    = "la"
+	RPC_LA            = "rpc-la"
+	WEB_RPC_LA        = "web-rpc-la"
 )
 
 var (
@@ -66,6 +69,21 @@ var (
 	configFile = cli.StringFlag{
 		Name:  CONFIG_FILE,
 		Usage: "config file (.json)",
+	}
+
+	lisAdd = cli.StringFlag{
+		Name:  LISTEN_ADDRESS,
+		Usage: "listen on this address [127.0.0.1:4444]",
+	}
+
+	rpcLA = cli.StringFlag{
+		Name:  RPC_LA,
+		Usage: "RPC will listen on this address [127.0.0.1:4444]",
+	}
+
+	webRPCLA = cli.StringFlag{
+		Name:  WEB_RPC_LA,
+		Usage: "web RPC will listen on this address [127.0.0.1:4445]",
 	}
 )
 

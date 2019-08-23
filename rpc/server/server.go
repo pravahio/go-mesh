@@ -105,58 +105,6 @@ func (s *Server) CleanUp() {
 	}
 }
 
-/* func (s *server) Servepp() {
-	enableLogging()
-	handleFlags()
-
-	ilog.SetOutput(os.Stderr)
-
-	log.Info("Starting RPC server on " + *ip + ":" + *port)
-
-	lis, err := net.Listen("tcp", *ip+":"+*port)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	s := grpc.NewServer()
-
-	log.Info("New app created")
-	a, err := NewApplication()
-	if err != nil {
-		log.Fatal(err)
-	}
-	a.AddSubscriber()
-	a.AddPublisher()
-	a.Start()
-
-	log.Info("App started")
-
-	rpc.RegisterMeshServer(s, &server{a})
-
-	dyServer := buildServer(s, *mode)
-	if dyServer == nil {
-		log.Error("Server is nil. Check the mode you passed.")
-		os.Exit(-1)
-	}
-
-	log.Info("Starting serveServer")
-	serveServer(dyServer, lis)
-	log.Info("Started serveServer")
-
-	select {}
-} */
-
-/* func enableLogging() {
-	logging.SetLogLevel("rpc-server", "DEBUG")
-	logging.SetLogLevel("svc-bootstrap", "DEBUG")
-	logging.SetLogLevel("application", "DEBUG")
-	logging.SetLogLevel("svc-subscriber", "DEBUG")
-	logging.SetLogLevel("svc-publisher", "DEBUG")
-	logging.SetLogLevel("fpubsub", "DEBUG")
-	logging.SetLogLevel("pubsub", "DEBUG")
-	logging.SetLogLevel("eth-driver", "DEBUG")
-} */
-
 func buildServer(s *grpc.Server, ty string) RPCServer {
 	switch ty {
 	case "raw":

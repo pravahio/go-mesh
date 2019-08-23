@@ -13,3 +13,6 @@ bootstrap
 
 # Binary
 bin/
+
+mesh
+*.msa

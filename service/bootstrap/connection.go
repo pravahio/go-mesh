@@ -4,6 +4,7 @@ import (
 	"time"
 
 	addr "github.com/ipfs/go-ipfs-addr"
+	inet "github.com/libp2p/go-libp2p-core/network"
 	peer "github.com/libp2p/go-libp2p-core/peer"
 	discovery "github.com/libp2p/go-libp2p-discovery"
 	pstore "github.com/libp2p/go-libp2p-peerstore"
@@ -88,6 +89,11 @@ func (bs *BootstrapService) announceAndFind() error {
 				continue
 			}
 			log.Debug("Found peer:", p)
+
+			if host.Network().Connectedness(p.ID) == inet.Connected {
+				log.Info("Already have a conn to", p.ID)
+				continue
+			}
 
 			go func(pi peer.AddrInfo) {
 				err := host.Connect(bs.ctxLocal, pi)

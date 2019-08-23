@@ -2,12 +2,12 @@ package app_test
 
 import (
 	"context"
-	"fmt"
 	"testing"
 	"time"
 
 	logging "github.com/ipfs/go-log"
 	application "github.com/upperwal/go-mesh/application"
+	cfg "github.com/upperwal/go-mesh/config"
 	driver "github.com/upperwal/go-mesh/driver/eth"
 	fpubsub "github.com/upperwal/go-mesh/pubsub"
 	bootservice "github.com/upperwal/go-mesh/service/bootstrap"
@@ -22,17 +22,21 @@ func TestSubscribe(t *testing.T) {
 	logging.SetLogLevel("pubsub", "DEBUG")
 	logging.SetLogLevel("eth-driver", "DEBUG")
 
-	app, err := application.NewApplication(context.Background(), nil, nil)
+	app, err := application.NewApplication(context.Background(), nil, nil, "0.0.0.0", "0")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	ethDriver, err := driver.NewEthDriver()
+	ethDriver, err := driver.NewEthDriver("", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	bservice := bootservice.NewBootstrapService(false, "abc", []string{"/ip4/127.0.0.1/udp/4000/quic/p2p/QmVbcMycaK8ni5CeiM7JRjBRAdmwky6dQ6KcoxLesZDPk9"})
+	bservice := bootservice.NewBootstrapService(
+		false,
+		"abc",
+		cfg.BootstrapList,
+		15*time.Second)
 	subService := subservice.NewSubscriberService(ethDriver)
 
 	app.InjectService(bservice)
@@ -41,24 +45,14 @@ func TestSubscribe(t *testing.T) {
 	f := fpubsub.NewFilter(ethDriver)
 	app.SetGossipPeerFilter(f)
 
-	app.Start()
-
-	time.Sleep(3 * time.Second)
-	c, err := subService.SubscribeToTopic("GGN.BUS")
+	err = app.Start()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	counter := 0
-	tm := time.Now()
-	for {
-		<-c
-		counter++
-		//fmt.Println(string(m.GetData()))
-		if counter%100 == 0 {
-			fmt.Println("Messages Recv Rate / Count: ", float64(counter)/time.Since(tm).Seconds(), counter)
-		}
+	time.Sleep(3 * time.Second)
+	_, err = subService.SubscribeToTopic("GGN.BUS")
+	if err != nil {
+		t.Fatal(err)
 	}
-
-	app.Wait()
 }

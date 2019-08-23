@@ -7,6 +7,7 @@ import (
 
 	logging "github.com/ipfs/go-log"
 	application "github.com/upperwal/go-mesh/application"
+	cfg "github.com/upperwal/go-mesh/config"
 	driver "github.com/upperwal/go-mesh/driver/eth"
 	fpubsub "github.com/upperwal/go-mesh/pubsub"
 	bootservice "github.com/upperwal/go-mesh/service/bootstrap"
@@ -21,17 +22,21 @@ func TestPublish(t *testing.T) {
 	logging.SetLogLevel("pubsub", "DEBUG")
 	logging.SetLogLevel("eth-driver", "DEBUG")
 
-	app, err := application.NewApplication(context.Background(), nil, nil)
+	app, err := application.NewApplication(context.Background(), nil, nil, "0.0.0.0", "0")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	ethDriver, err := driver.NewEthDriver()
+	ethDriver, err := driver.NewEthDriver("", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	bservice := bootservice.NewBootstrapService(false, "abc", []string{"/ip4/127.0.0.1/udp/4000/quic/p2p/QmVbcMycaK8ni5CeiM7JRjBRAdmwky6dQ6KcoxLesZDPk9"})
+	bservice := bootservice.NewBootstrapService(
+		false,
+		"abc",
+		cfg.BootstrapList,
+		15*time.Second)
 	pubService := pubservice.NewPublisherService(ethDriver)
 
 	app.InjectService(bservice)
@@ -40,14 +45,20 @@ func TestPublish(t *testing.T) {
 	f := fpubsub.NewFilter(ethDriver)
 	app.SetGossipPeerFilter(f)
 
-	app.Start()
+	err = app.Start()
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	time.Sleep(3 * time.Second)
 
-	pubService.RegisterToPublish("GGN.BUS")
-	for {
-		pubService.PublishData("GGN.BUS", []byte("yyyy"))
-		time.Sleep(1000 * time.Millisecond)
+	err = pubService.RegisterToPublish("GGN.BUS")
+	if err != nil {
+		t.Fatal(err)
 	}
-	app.Wait()
+
+	err = pubService.PublishData("GGN.BUS", []byte("yyyy"))
+	if err != nil {
+		t.Fatal(err)
+	}
 }

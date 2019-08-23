@@ -3,6 +3,7 @@ package config
 import (
 	"crypto/ecdsa"
 	"crypto/x509"
+	"time"
 
 	logging "github.com/ipfs/go-log"
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
@@ -20,8 +21,9 @@ type Config struct {
 	AccountCert   *x509.Certificate
 
 	// Bootstrap
-	BootstrapNodes      []string
-	BootstrapRendezvous string
+	BootstrapNodes       []string
+	BootstrapRendezvous  string
+	BootstrapRefreshRate time.Duration
 
 	// Remote Access
 	RemoteAccessURI        string // TODO: what about the contract address?????

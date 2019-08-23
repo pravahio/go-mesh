@@ -75,7 +75,7 @@ func (bs *BootstrapService) announceAndFind() error {
 	discovery.Advertise(bs.ctxLocal, routingDiscovery, bs.rendezvousPoint)
 	log.Debug("Successfully announced!")
 
-	ticker := time.NewTicker(15 * time.Second)
+	ticker := time.NewTicker(bs.d)
 
 	for {
 		log.Debug("Searching for other peers...")

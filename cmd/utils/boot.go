@@ -5,6 +5,7 @@ import (
 	"fmt"
 	mrand "math/rand"
 	"strconv"
+	"time"
 
 	logging "github.com/ipfs/go-log"
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
@@ -16,8 +17,9 @@ import (
 )
 
 const (
-	BOOT_RNZ = "/BOOT_RNZ"
-	PORT     = "4000"
+	BOOT_RNZ     = "/BOOT_RNZ"
+	PORT         = "4000"
+	REFRESH_RATE = 15 * time.Minute
 )
 
 var (
@@ -178,7 +180,7 @@ func boot(k crypto.PrivKey) {
 		return
 	}
 
-	bservice := bs.NewBootstrapService(false, BOOT_RNZ, cfg.BootstrapList)
+	bservice := bs.NewBootstrapService(false, BOOT_RNZ, cfg.BootstrapList, REFRESH_RATE)
 	app.InjectService(bservice)
 
 	err = app.Start()

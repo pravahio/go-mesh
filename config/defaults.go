@@ -35,6 +35,12 @@ var DefaultBootstrapRendezvous = func(cfg *Config) error {
 	return nil
 }
 
+// DefaultBootstrapRefreshRate specifies time interval to look for new peer nodes
+var DefaultBootstrapRefreshRate = func(cfg *Config) error {
+	cfg.BootstrapRefreshRate = BootstrapRefreshRate
+	return nil
+}
+
 // DefaultRemoteAccessURI defines a remote point URL which is used for authentication of data topics, publishers and subscribers.
 // It can be a central server or a blockchain service.
 // It should support interface defined in 'interface/blockchain/blockchain.go'
@@ -86,6 +92,10 @@ var Defaults = []struct {
 	{
 		Fallback: func(cfg *Config) bool { return cfg.BootstrapRendezvous == "" },
 		Opt:      DefaultBootstrapRendezvous,
+	},
+	{
+		Fallback: func(cfg *Config) bool { return cfg.BootstrapRefreshRate == 0 },
+		Opt:      DefaultBootstrapRefreshRate,
 	},
 	{
 		Fallback: func(cfg *Config) bool { return cfg.RemoteAccessURI == "" },

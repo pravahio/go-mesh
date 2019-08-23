@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"context"
+	"time"
 
 	logging "github.com/ipfs/go-log"
 	inet "github.com/libp2p/go-libp2p-core/network"
@@ -33,16 +34,20 @@ type BootstrapService struct {
 	ctxLocal           context.Context
 	ctxLocalCancelFunc context.CancelFunc
 
+	// refresh rate
+	d time.Duration
+
 	s inet.Stream
 }
 
 // NewBootstrapService creates a new BootstrapService.
-func NewBootstrapService(ann bool, rPoint string, bList []string) *BootstrapService {
+func NewBootstrapService(ann bool, rPoint string, bList []string, d time.Duration) *BootstrapService {
 	hs := &BootstrapService{
 		announce:        ann,
 		rendezvousPoint: rPoint,
 		bootstrapPeers:  bList,
 		readyChanList:   make([]chan interface{}, 0),
+		d:               d,
 	}
 
 	hs.SetNameVersion(NAME, VERSION)

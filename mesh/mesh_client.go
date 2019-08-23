@@ -54,7 +54,7 @@ func NewMesh(ctx context.Context, opt ...config.Option) (*Mesh, error) {
 		return nil, err
 	}
 
-	bservice := bs.NewBootstrapService(false, cfg.BootstrapRendezvous, cfg.BootstrapNodes)
+	bservice := bs.NewBootstrapService(false, cfg.BootstrapRendezvous, cfg.BootstrapNodes, cfg.BootstrapRefreshRate)
 	app.InjectService(bservice)
 
 	f := fpubsub.NewFilter(ethDriver)

@@ -62,6 +62,7 @@ func (bs *BootstrapService) connectToBootstrapPeers() error {
 		log.Info("Started new bootstrap stream")
 
 		go bs.Run(bs.s)
+		bs.WriteTemp()
 	}
 
 	return nil

@@ -91,6 +91,10 @@ func (app *Application) Stop() error {
 	return nil
 }
 
+func (app *Application) GetHost() host.Host {
+	return app.h
+}
+
 func (app *Application) GetService(name string) service.ServiceData {
 	return app.ServiceMap[name]
 }

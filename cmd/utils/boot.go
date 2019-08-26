@@ -8,6 +8,7 @@ import (
 	"time"
 
 	logging "github.com/ipfs/go-log"
+	autonats "github.com/libp2p/go-libp2p-autonat-svc"
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	peer "github.com/libp2p/go-libp2p-core/peer"
 	"github.com/upperwal/go-mesh/application"
@@ -165,7 +166,10 @@ func handler(s inet.Stream) {
 func boot(k crypto.PrivKey) {
 	ctx := context.Background()
 
-	logging.SetLogLevel("svc-bootstrap", "DEBUG")
+	logging.SetLogLevel("autonat", "DEBUG")
+	logging.SetLogLevel("relay", "DEBUG")
+	logging.SetLogLevel("net/identify", "DEBUG")
+	logging.SetLogLevel("autonat-svc", "DEBUG")
 	fmt.Println("Running Bootstrap node...")
 
 	app, err := application.NewApplication(
@@ -178,6 +182,12 @@ func boot(k crypto.PrivKey) {
 	)
 	if err != nil {
 		log.Warning(err)
+		return
+	}
+
+	_, err = autonats.NewAutoNATService(ctx, app.GetHost())
+	if err != nil {
+		log.Error(err)
 		return
 	}
 

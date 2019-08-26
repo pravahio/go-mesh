@@ -85,7 +85,7 @@ func (bs *BootstrapService) Stop() error {
 }
 
 func (bs *BootstrapService) Run(s inet.Stream) {
-	fmt.Println("Connected to:", bs.GetHost().ID(), "(", bs.GetHost().Addrs(), ") => Remote:", s.Conn().RemotePeer(), s.Conn().RemoteMultiaddr())
+	fmt.Println("My info:", bs.GetHost().ID(), "(", bs.GetHost().Addrs(), ") => Remote:", s.Conn().RemotePeer(), s.Conn().RemoteMultiaddr())
 }
 
 // Get implements service.ServiceData

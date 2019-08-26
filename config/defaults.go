@@ -72,6 +72,13 @@ var DefaultPortString = func(cfg *Config) error {
 	return nil
 }
 
+// DefaultRelayAsAService defines if this node gives relay service to others
+var DefaultRelayAsAService = func(cfg *Config) error {
+	cfg.RelayAsAService = new(bool)
+	*cfg.RelayAsAService = false
+	return nil
+}
+
 // Defaults contains the conditions for which defaults are defined.
 var Defaults = []struct {
 	Fallback func(cfg *Config) bool
@@ -112,6 +119,10 @@ var Defaults = []struct {
 	{
 		Fallback: func(cfg *Config) bool { return cfg.Port == "" },
 		Opt:      DefaultPortString,
+	},
+	{
+		Fallback: func(cfg *Config) bool { return cfg.RelayAsAService == nil },
+		Opt:      DefaultRelayAsAService,
 	},
 }
 

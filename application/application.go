@@ -34,6 +34,7 @@ func NewApplication(
 	privKey crypto.PrivKey,
 	cert *x509.Certificate,
 	host, port string,
+	relayService bool,
 ) (*Application, error) {
 
 	appCtx, appCancel := context.WithCancel(ctx)
@@ -55,7 +56,7 @@ func NewApplication(
 		log.Info("New account generated")
 	}
 
-	err = a.startNode(a.ctx, privKey, host, port)
+	err = a.startNode(a.ctx, privKey, host, port, relayService)
 	if err != nil {
 		return nil, err
 	}

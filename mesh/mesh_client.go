@@ -44,6 +44,7 @@ func NewMesh(ctx context.Context, opt ...config.Option) (*Mesh, error) {
 		cfg.AccountCert,
 		cfg.Host,
 		cfg.Port,
+		*cfg.RelayAsAService,
 	)
 	if err != nil {
 		return nil, err

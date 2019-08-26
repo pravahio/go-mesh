@@ -174,6 +174,7 @@ func boot(k crypto.PrivKey) {
 		nil,
 		"0.0.0.0",
 		PORT,
+		true,
 	)
 	if err != nil {
 		log.Warning(err)

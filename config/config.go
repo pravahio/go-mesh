@@ -35,6 +35,9 @@ type Config struct {
 	// Listening socket
 	Host string
 	Port string
+
+	// Relay
+	RelayAsAService *bool
 }
 
 // NewConfig return new configuration with default or new options set.

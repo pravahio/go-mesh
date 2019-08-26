@@ -16,12 +16,20 @@ type libp2pNodeServices struct {
 	psub *floodsub.PubSub
 }
 
-func (app *Application) startNode(ctx context.Context, privKey crypto.PrivKey, hostS, portS string) error {
+func (app *Application) startNode(ctx context.Context, privKey crypto.PrivKey, hostS, portS string, relayService bool) error {
 
 	quicTransport, err := getQUICTransport(privKey)
 	if err != nil {
 		log.Error(err)
 		return err
+	}
+
+	relayOpt := []circuit.RelayOpt{
+		circuit.OptDiscovery,
+	}
+
+	if relayService {
+		relayOpt = append(relayOpt, circuit.OptHop)
 	}
 
 	host, err := libp2p.New(
@@ -30,7 +38,7 @@ func (app *Application) startNode(ctx context.Context, privKey crypto.PrivKey, h
 		libp2p.NATPortMap(),
 		libp2p.Identity(privKey),
 		libp2p.Transport(quicTransport),
-		libp2p.EnableRelay(circuit.OptDiscovery),
+		libp2p.EnableRelay(relayOpt...),
 	)
 	if err != nil {
 		return err

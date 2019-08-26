@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	logging "github.com/ipfs/go-log"
@@ -83,7 +84,9 @@ func (bs *BootstrapService) Stop() error {
 	return nil
 }
 
-func (bs *BootstrapService) Run(s inet.Stream) {}
+func (bs *BootstrapService) Run(s inet.Stream) {
+	fmt.Println("Connected to:", bs.GetHost().ID(), "(", bs.GetHost().Addrs(), ") => Remote:", s.Conn().RemotePeer(), s.Conn().RemoteMultiaddr())
+}
 
 // Get implements service.ServiceData
 func (bs *BootstrapService) Get(key string) (chan interface{}, error) {

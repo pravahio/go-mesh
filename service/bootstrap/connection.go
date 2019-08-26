@@ -110,10 +110,10 @@ func (bs *BootstrapService) announceAndFind() error {
 		select {
 		case <-bs.ctxLocal.Done():
 			ticker.Stop()
+			return nil
 		default:
 		}
 
 		<-ticker.C
 	}
-	return nil
 }

@@ -23,7 +23,7 @@ func TestApp(t *testing.T) {
 	logging.SetLogLevel("application", "DEBUG")
 	logging.SetLogLevel("svc-subscriber", "DEBUG")
 
-	app, err := application.NewApplication(context.Background(), nil, nil, "0.0.0.0", "0")
+	app, err := application.NewApplication(context.Background(), nil, nil, "0.0.0.0", "0", false)
 	if err != nil {
 		t.Fatal(err)
 	}

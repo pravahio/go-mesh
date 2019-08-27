@@ -41,7 +41,7 @@ func (app *Application) startNode(ctx context.Context, privKey crypto.PrivKey, h
 	host, err := libp2p.New(
 		ctx,
 		libp2p.ListenAddrStrings(fmt.Sprintf("/ip4/%s/udp/%s/quic", hostS, portS)),
-		libp2p.NATPortMap(),
+		//libp2p.NATPortMap(),
 		libp2p.Identity(privKey),
 		libp2p.Transport(quicTransport),
 		libp2p.Routing(dhtFactory),

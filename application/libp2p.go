@@ -7,8 +7,10 @@ import (
 	libp2p "github.com/libp2p/go-libp2p"
 	circuit "github.com/libp2p/go-libp2p-circuit"
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
+	host "github.com/libp2p/go-libp2p-core/host"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
 	floodsub "github.com/libp2p/go-libp2p-pubsub"
+	routing "github.com/libp2p/go-libp2p-routing"
 )
 
 type libp2pNodeServices struct {
@@ -32,12 +34,18 @@ func (app *Application) startNode(ctx context.Context, privKey crypto.PrivKey, h
 		relayOpt = append(relayOpt, circuit.OptHop)
 	}
 
+	dhtFactory := func(h host.Host) (routing.PeerRouting, error) {
+		return dht.New(ctx, h)
+	}
+
 	host, err := libp2p.New(
 		ctx,
 		libp2p.ListenAddrStrings(fmt.Sprintf("/ip4/%s/udp/%s/quic", hostS, portS)),
-		libp2p.NATPortMap(),
+		//libp2p.NATPortMap(),
 		libp2p.Identity(privKey),
 		libp2p.Transport(quicTransport),
+		libp2p.Routing(dhtFactory),
+		libp2p.EnableAutoRelay(),
 		libp2p.EnableRelay(relayOpt...),
 	)
 	if err != nil {

@@ -19,18 +19,17 @@ require (
 	github.com/ipfs/go-ipfs-addr v0.0.1
 	github.com/ipfs/go-log v0.0.1
 	github.com/karalabe/hid v1.0.0 // indirect
-	github.com/libp2p/go-libp2p v0.2.0
-	github.com/libp2p/go-libp2p-circuit v0.1.0
-	github.com/libp2p/go-libp2p-core v0.0.6
+	github.com/libp2p/go-libp2p v0.3.1
+	github.com/libp2p/go-libp2p-autonat-svc v0.1.0
+	github.com/libp2p/go-libp2p-circuit v0.1.1
+	github.com/libp2p/go-libp2p-core v0.2.2
 	github.com/libp2p/go-libp2p-discovery v0.1.0
 	github.com/libp2p/go-libp2p-kad-dht v0.1.0
-	github.com/libp2p/go-libp2p-peerstore v0.1.1
+	github.com/libp2p/go-libp2p-peerstore v0.1.3
 	github.com/libp2p/go-libp2p-pubsub v0.1.0
-	github.com/libp2p/go-libp2p-quic-transport v0.1.1
-	github.com/libp2p/go-libp2p-transport v0.1.0 // indirect
-	github.com/libp2p/go-msgio v0.0.4 // indirect
+	github.com/libp2p/go-libp2p-quic-transport v0.1.2-0.20190813044021-61a9a79cbf2e
+	github.com/libp2p/go-libp2p-routing v0.1.0
 	github.com/libp2p/go-stream-muxer v0.1.0 // indirect
-	github.com/marten-seemann/qtls v0.2.4 // indirect
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/multiformats/go-multiaddr v0.0.4
 	github.com/multiformats/go-multihash v0.0.6 // indirect
@@ -46,7 +45,6 @@ require (
 	google.golang.org/grpc v1.20.1
 	gopkg.in/natefinch/npipe.v2 v2.0.0-20160621034901-c1b8fa8bdcce // indirect
 	gopkg.in/urfave/cli.v1 v1.20.0
-	gopkg.in/yaml.v2 v2.2.2 // indirect
 )
 
 replace github.com/libp2p/go-libp2p-pubsub v0.1.0 => github.com/upperwal/go-libp2p-pubsub v0.1.1-0.20190822125434-affd4e4c6c42

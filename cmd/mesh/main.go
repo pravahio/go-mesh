@@ -21,7 +21,7 @@ var (
 
 func init() {
 	app.Name = "mesh"
-	app.Version = "v0.0.1"
+	app.Version = "v0.0.3"
 	app.Usage = "go-mesh command line interface"
 	app.Description = "go-mesh command line interface"
 	app.Authors = []cli.Author{
@@ -223,5 +223,12 @@ func applyLogs(b bool) {
 		logging.SetLogLevel("fpubsub", "DEBUG")
 		logging.SetLogLevel("pubsub", "DEBUG")
 		logging.SetLogLevel("eth-driver", "DEBUG")
+		/* logging.SetLogLevel("dht", "DEBUG")
+		logging.SetLogLevel("relay", "DEBUG")
+		logging.SetLogLevel("net/identify", "DEBUG") */
+		/* logging.SetLogLevel("autonat", "DEBUG")
+		logging.SetLogLevel("autorelay", "DEBUG")
+		logging.SetLogLevel("basichost", "DEBUG")
+		logging.SetLogLevel("net/identify", "DEBUG") */
 	}
 }

@@ -1,6 +1,8 @@
 package pubsub
 
 import (
+	"time"
+
 	cache "github.com/bluele/gcache"
 	logging "github.com/ipfs/go-log"
 	peer "github.com/libp2p/go-libp2p-core/peer"
@@ -8,6 +10,7 @@ import (
 )
 
 var log = logging.Logger("fpubsub")
+var expireTime = 30 * time.Second
 
 type Filter struct {
 	r ra.RemoteAccess
@@ -34,7 +37,7 @@ func (f *Filter) FilterSubscriber(p peer.ID, t string) bool {
 			return false
 		}
 
-		err = f.c.Set(p.String()+t, v)
+		err = f.c.SetWithExpire(p.String()+t, v, expireTime)
 		if err != nil {
 			log.Error(err)
 		}
@@ -66,7 +69,7 @@ func (f *Filter) FilterPublisher(p peer.ID, ts []string) []bool {
 				continue
 			}
 
-			err = f.c.Set(p.String()+t, v)
+			err = f.c.SetWithExpire(p.String()+t, v, expireTime)
 			if err != nil {
 				log.Error(err)
 			}

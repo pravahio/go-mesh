@@ -23,7 +23,7 @@ func (pubService *PublisherService) PublishData(topic string, data []byte) error
 	if err != nil {
 		return err
 	}
-	log.Info("Pub", string(data))
+	log.Info("Pub Size:", len(data))
 
 	return nil
 }

@@ -2,7 +2,7 @@ package server
 
 import (
 	"errors"
-	
+
 	rpc "github.com/upperwal/go-mesh/rpc"
 )
 

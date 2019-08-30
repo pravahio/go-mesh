@@ -30,7 +30,7 @@ func (f *Filter) FilterSubscriber(p peer.ID, t string) bool {
 	if err != nil {
 		v, err = f.r.IsPeerSubscribed(p, t)
 		if err != nil {
-			log.Error("IsPeerSubscribed returned err")
+			log.Error(err)
 			return false
 		}
 
@@ -61,7 +61,7 @@ func (f *Filter) FilterPublisher(p peer.ID, ts []string) []bool {
 		if err != nil {
 			v, err = f.r.IsPeerAPublisher(p, t)
 			if err != nil {
-				log.Error("IsPeerAPublisher returned: ", err)
+				log.Error(err)
 				res[i] = false
 				continue
 			}

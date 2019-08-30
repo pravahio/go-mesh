@@ -3,10 +3,13 @@ package eth
 import (
 	"context"
 	"crypto/ecdsa"
+	"errors"
 	"fmt"
 	"math/big"
+	"time"
 
 	bind "github.com/ethereum/go-ethereum/accounts/abi/bind"
+	types "github.com/ethereum/go-ethereum/core/types"
 	crypto "github.com/ethereum/go-ethereum/crypto"
 	ethclient "github.com/ethereum/go-ethereum/ethclient"
 	logging "github.com/ipfs/go-log"
@@ -15,6 +18,10 @@ import (
 )
 
 var log = logging.Logger("eth-driver")
+
+const TRIES = 10
+
+var triesInterval = 5 * time.Second
 
 // EthDriver implements "RemoteAccess".
 type EthDriver struct {
@@ -73,7 +80,19 @@ func (eth *EthDriver) Subscribe(p peer.ID, topic string) error {
 		return err
 	}
 	log.Info("Trans Hash: ", t.Hash().String())
-	return nil
+
+	for i := 0; i < TRIES; i++ {
+		rec, err := eth.client.TransactionReceipt(context.Background(), t.Hash())
+		if err == nil {
+			log.Info("Transaction is success", rec.Status == types.ReceiptStatusSuccessful)
+			return nil
+		}
+		log.Info("Transaction pending", err)
+
+		time.Sleep(triesInterval)
+	}
+
+	return errors.New("Something happened with the transaction")
 }
 
 func (eth *EthDriver) Publish(p peer.ID, topic string) error {
@@ -97,7 +116,19 @@ func (eth *EthDriver) Publish(p peer.ID, topic string) error {
 		return err
 	}
 	log.Info("Trans Hash: ", t.Hash().String())
-	return nil
+
+	for i := 0; i < TRIES; i++ {
+		rec, err := eth.client.TransactionReceipt(context.Background(), t.Hash())
+		if err == nil {
+			log.Info("Transaction is success", rec.Status == types.ReceiptStatusSuccessful)
+			return nil
+		}
+		log.Info("Transaction pending", err)
+
+		time.Sleep(triesInterval)
+	}
+
+	return errors.New("Something happened with the transaction")
 }
 
 func (eth *EthDriver) IsPeerAPublisher(p peer.ID, t string) (bool, error) {

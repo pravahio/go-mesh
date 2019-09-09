@@ -4,14 +4,14 @@ import (
 	"context"
 	"fmt"
 
-	application "github.com/upperwal/go-mesh/application"
-	config "github.com/upperwal/go-mesh/config"
-	driver "github.com/upperwal/go-mesh/driver/eth"
-	ra "github.com/upperwal/go-mesh/interface/ra"
-	fpubsub "github.com/upperwal/go-mesh/pubsub"
-	bs "github.com/upperwal/go-mesh/service/bootstrap"
-	pubservice "github.com/upperwal/go-mesh/service/publisher"
-	subservice "github.com/upperwal/go-mesh/service/subscriber"
+	application "github.com/pravahio/go-mesh/application"
+	config "github.com/pravahio/go-mesh/config"
+	driver "github.com/pravahio/go-mesh/driver/eth"
+	ra "github.com/pravahio/go-mesh/interface/ra"
+	fpubsub "github.com/pravahio/go-mesh/pubsub"
+	bs "github.com/pravahio/go-mesh/service/bootstrap"
+	pubservice "github.com/pravahio/go-mesh/service/publisher"
+	subservice "github.com/pravahio/go-mesh/service/subscriber"
 )
 
 // Mesh contains variables need for client to work.

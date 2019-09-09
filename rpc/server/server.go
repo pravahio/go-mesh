@@ -8,9 +8,9 @@ import (
 
 	grpcweb "github.com/improbable-eng/grpc-web/go/grpcweb"
 	logging "github.com/ipfs/go-log"
-	config "github.com/upperwal/go-mesh/config"
-	mesh "github.com/upperwal/go-mesh/mesh"
-	rpc "github.com/upperwal/go-mesh/rpc"
+	config "github.com/pravahio/go-mesh/config"
+	mesh "github.com/pravahio/go-mesh/mesh"
+	rpc "github.com/pravahio/go-mesh/rpc"
 	grpc "google.golang.org/grpc"
 )
 

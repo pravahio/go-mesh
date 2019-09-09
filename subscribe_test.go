@@ -6,12 +6,12 @@ import (
 	"time"
 
 	logging "github.com/ipfs/go-log"
-	application "github.com/upperwal/go-mesh/application"
-	cfg "github.com/upperwal/go-mesh/config"
-	driver "github.com/upperwal/go-mesh/driver/eth"
-	fpubsub "github.com/upperwal/go-mesh/pubsub"
-	bootservice "github.com/upperwal/go-mesh/service/bootstrap"
-	subservice "github.com/upperwal/go-mesh/service/subscriber"
+	application "github.com/pravahio/go-mesh/application"
+	cfg "github.com/pravahio/go-mesh/config"
+	driver "github.com/pravahio/go-mesh/driver/eth"
+	fpubsub "github.com/pravahio/go-mesh/pubsub"
+	bootservice "github.com/pravahio/go-mesh/service/bootstrap"
+	subservice "github.com/pravahio/go-mesh/service/subscriber"
 )
 
 func TestSubscribe(t *testing.T) {

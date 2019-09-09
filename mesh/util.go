@@ -3,7 +3,7 @@ package mesh
 import (
 	"errors"
 
-	config "github.com/upperwal/go-mesh/config"
+	config "github.com/pravahio/go-mesh/config"
 )
 
 func checkConfig(cfg *config.Config) error {

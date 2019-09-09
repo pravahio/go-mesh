@@ -6,8 +6,8 @@ import (
 
 	logging "github.com/ipfs/go-log"
 	inet "github.com/libp2p/go-libp2p-core/network"
-	service "github.com/upperwal/go-mesh/interface/service"
-	datatype "github.com/upperwal/go-mesh/service/host/datatype"
+	service "github.com/pravahio/go-mesh/interface/service"
+	datatype "github.com/pravahio/go-mesh/service/host/datatype"
 )
 
 var log = logging.Logger("svc-host")

@@ -5,7 +5,7 @@ import (
 
 	logging "github.com/ipfs/go-log"
 	peer "github.com/libp2p/go-libp2p-core/peer"
-	eth "github.com/upperwal/go-mesh/driver/eth"
+	eth "github.com/pravahio/go-mesh/driver/eth"
 )
 
 func TestEthSub(t *testing.T) {

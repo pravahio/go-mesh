@@ -4,7 +4,7 @@ import (
 	"errors"
 	"context"
 
-	rpc "github.com/upperwal/go-mesh/rpc"
+	rpc "github.com/pravahio/go-mesh/rpc"
 )
 
 // RegisterToPublish register a peer and topic with the remote access server.

@@ -11,9 +11,9 @@ import (
 	autonats "github.com/libp2p/go-libp2p-autonat-svc"
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	peer "github.com/libp2p/go-libp2p-core/peer"
-	"github.com/upperwal/go-mesh/application"
-	cfg "github.com/upperwal/go-mesh/config"
-	bs "github.com/upperwal/go-mesh/service/bootstrap"
+	"github.com/pravahio/go-mesh/application"
+	cfg "github.com/pravahio/go-mesh/config"
+	bs "github.com/pravahio/go-mesh/service/bootstrap"
 	cli "gopkg.in/urfave/cli.v1"
 )
 

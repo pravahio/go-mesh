@@ -9,8 +9,8 @@ import (
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	host "github.com/libp2p/go-libp2p-core/host"
 
-	service "github.com/upperwal/go-mesh/interface/service"
-	account "github.com/upperwal/go-mesh/util/account"
+	service "github.com/pravahio/go-mesh/interface/service"
+	account "github.com/pravahio/go-mesh/util/account"
 )
 
 var log = logging.Logger("application")

@@ -5,7 +5,7 @@ import (
 
 	logging "github.com/ipfs/go-log"
 	inet "github.com/libp2p/go-libp2p-core/network"
-	service "github.com/upperwal/go-mesh/interface/service"
+	service "github.com/pravahio/go-mesh/interface/service"
 )
 
 var log = logging.Logger("svc-infra")

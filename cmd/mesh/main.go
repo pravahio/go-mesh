@@ -7,10 +7,10 @@ import (
 	"strings"
 
 	logging "github.com/ipfs/go-log"
-	utils "github.com/upperwal/go-mesh/cmd/utils"
-	"github.com/upperwal/go-mesh/config"
-	mclient "github.com/upperwal/go-mesh/mesh"
-	rpc "github.com/upperwal/go-mesh/rpc/server"
+	utils "github.com/pravahio/go-mesh/cmd/utils"
+	"github.com/pravahio/go-mesh/config"
+	mclient "github.com/pravahio/go-mesh/mesh"
+	rpc "github.com/pravahio/go-mesh/rpc/server"
 	cli "gopkg.in/urfave/cli.v1"
 )
 

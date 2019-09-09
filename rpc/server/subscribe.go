@@ -3,7 +3,7 @@ package server
 import (
 	"errors"
 
-	rpc "github.com/upperwal/go-mesh/rpc"
+	rpc "github.com/pravahio/go-mesh/rpc"
 )
 
 // Subscribe serves a subscribe request over RPC

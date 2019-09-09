@@ -6,7 +6,7 @@ import (
 	cache "github.com/bluele/gcache"
 	logging "github.com/ipfs/go-log"
 	peer "github.com/libp2p/go-libp2p-core/peer"
-	ra "github.com/upperwal/go-mesh/interface/ra"
+	ra "github.com/pravahio/go-mesh/interface/ra"
 )
 
 var log = logging.Logger("fpubsub")

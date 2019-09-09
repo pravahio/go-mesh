@@ -14,8 +14,8 @@ import (
 	logging "github.com/ipfs/go-log"
 	libcrypto "github.com/libp2p/go-libp2p-core/crypto"
 	peer "github.com/libp2p/go-libp2p-core/peer"
-	eth "github.com/upperwal/go-mesh/driver/eth"
-	account "github.com/upperwal/go-mesh/util/account"
+	eth "github.com/pravahio/go-mesh/driver/eth"
+	account "github.com/pravahio/go-mesh/util/account"
 )
 
 var log = logging.Logger("cmd/utils")

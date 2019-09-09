@@ -5,13 +5,13 @@ import (
 
 	logging "github.com/ipfs/go-log"
 	peer "github.com/libp2p/go-libp2p-core/peer"
-	eth "github.com/upperwal/go-mesh/driver/eth"
+	eth "github.com/pravahio/go-mesh/driver/eth"
 )
 
 func TestEthSub(t *testing.T) {
 	logging.SetLogLevel("eth-driver", "DEBUG")
 
-	d, err := eth.NewEthDriver()
+	d, err := eth.NewEthDriver("", nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -30,7 +30,7 @@ func TestEthSub(t *testing.T) {
 func TestEthPub(t *testing.T) {
 	logging.SetLogLevel("eth-driver", "DEBUG")
 
-	d, err := eth.NewEthDriver()
+	d, err := eth.NewEthDriver("", nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -49,7 +49,7 @@ func TestEthPub(t *testing.T) {
 func TestEthIsSub(t *testing.T) {
 	logging.SetLogLevel("eth-driver", "DEBUG")
 
-	d, err := eth.NewEthDriver()
+	d, err := eth.NewEthDriver("", nil)
 	if err != nil {
 		t.Error(err)
 	}
@@ -70,7 +70,7 @@ func TestEthIsSub(t *testing.T) {
 func TestEthIsPub(t *testing.T) {
 	logging.SetLogLevel("eth-driver", "DEBUG")
 
-	d, err := eth.NewEthDriver()
+	d, err := eth.NewEthDriver("", nil)
 	if err != nil {
 		t.Error(err)
 	}

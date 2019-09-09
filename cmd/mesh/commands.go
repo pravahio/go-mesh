@@ -1,7 +1,7 @@
 package main
 
 import (
-	utils "github.com/upperwal/go-mesh/cmd/utils"
+	utils "github.com/pravahio/go-mesh/cmd/utils"
 	cli "gopkg.in/urfave/cli.v1"
 )
 

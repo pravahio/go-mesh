@@ -6,16 +6,16 @@ import (
 	"time"
 
 	logging "github.com/ipfs/go-log"
-	application "github.com/upperwal/go-mesh/application"
+	application "github.com/pravahio/go-mesh/application"
 
 	// Services
-	bootservice "github.com/upperwal/go-mesh/service/bootstrap"
-	subservice "github.com/upperwal/go-mesh/service/subscriber"
+	bootservice "github.com/pravahio/go-mesh/service/bootstrap"
+	subservice "github.com/pravahio/go-mesh/service/subscriber"
 
 	// Driver
-	driver "github.com/upperwal/go-mesh/driver/eth"
+	driver "github.com/pravahio/go-mesh/driver/eth"
 
-	cfg "github.com/upperwal/go-mesh/config"
+	cfg "github.com/pravahio/go-mesh/config"
 )
 
 func TestApp(t *testing.T) {

@@ -11,7 +11,7 @@ import (
 	"github.com/pravahio/go-mesh/config"
 	mclient "github.com/pravahio/go-mesh/mesh"
 	rpc "github.com/pravahio/go-mesh/rpc/server"
-	cli "gopkg.in/urfave/cli.v1"
+	cli "github.com/urfave/cli"
 )
 
 var (

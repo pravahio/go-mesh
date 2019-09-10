@@ -2,7 +2,7 @@ package main
 
 import (
 	utils "github.com/pravahio/go-mesh/cmd/utils"
-	cli "gopkg.in/urfave/cli.v1"
+	cli "github.com/urfave/cli"
 )
 
 var (

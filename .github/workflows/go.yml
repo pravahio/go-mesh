@@ -27,7 +27,6 @@ jobs:
     - name: Build
       run: make build
   
-  build:
     name: Build Go 1.12
     runs-on: ubuntu-latest
     steps:

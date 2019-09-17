@@ -10,7 +10,7 @@ service Mesh {
 
 message PeerTopicInfo {
     string peer = 1;
-    string topic = 2;
+    repeated string topics = 2;
 }
 
 message PublishData {
@@ -23,5 +23,6 @@ message Response {
 }
 
 message Data {
-    bytes raw = 1;
+    repeated string topic = 1;
+    bytes raw = 2;
 }

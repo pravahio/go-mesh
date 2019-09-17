@@ -1,8 +1,8 @@
 package server
 
 import (
-	"errors"
 	"context"
+	"errors"
 
 	rpc "github.com/pravahio/go-mesh/rpc"
 )
@@ -13,12 +13,12 @@ func (s *Server) RegisterToPublish(ctx context.Context, info *rpc.PeerTopicInfo)
 		return nil, errors.New("RPC is not running as a publisher")
 	}
 
-	err := s.m.PubService.RegisterToPublish(info.GetTopic())
+	err := s.m.PubService.RegisterToPublish(info.GetTopics())
 	if err != nil {
 		return nil, err
 	}
 
-	log.Info("[RPC] Registered to publish on ", info.GetTopic())
+	log.Info("[RPC] Registered to publish on ", info.GetTopics())
 
 	return &rpc.Response{
 		Message: "ok",
@@ -44,9 +44,9 @@ func (s *Server) Publish(ctx context.Context, data *rpc.PublishData) (*rpc.Respo
 	info := data.GetInfo()
 	msg := data.GetData()
 
-	log.Info("[RPC] Publishing data on", info.GetTopic())
+	log.Info("[RPC] Publishing data on", info.GetTopics())
 
-	err := s.m.PubService.PublishData(info.GetTopic(), msg.GetRaw())
+	err := s.m.PubService.PublishData(msg.GetRaw(), info.GetTopics())
 
 	if err != nil {
 		return nil, err

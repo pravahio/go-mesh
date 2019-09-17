@@ -7,13 +7,17 @@ import (
 )
 
 func (subService *SubscriberService) SubscribeToTopic(topic string) (chan *pubsub.Message, error) {
-	// 1. Register on the blockchain
-	// 2. Subscribe to pubsub
+	// Temp disabled RA service
+	if subService.ra != nil {
 
-	host := subService.GetHost()
-	err := subService.ra.Subscribe(host.ID(), string(topic))
-	if err != nil {
-		return nil, err
+		// 1. Register on the blockchain
+		// 2. Subscribe to pubsub
+
+		host := subService.GetHost()
+		err := subService.ra.Subscribe(host.ID(), string(topic))
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	// Transaction on the blockchain won't be reflect immediately.

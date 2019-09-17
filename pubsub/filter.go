@@ -13,11 +13,17 @@ var log = logging.Logger("fpubsub")
 var expireTime = 30 * time.Second
 
 type Filter struct {
-	r ra.RemoteAccess
-	c cache.Cache
+	r               ra.RemoteAccess
+	c               cache.Cache
+	isFilterEnabled bool
 }
 
 func NewFilter(r ra.RemoteAccess) *Filter {
+	if r == nil {
+		return &Filter{
+			isFilterEnabled: false,
+		}
+	}
 	return &Filter{
 		r: r,
 		c: cache.New(50).LRU().Build(),
@@ -26,6 +32,10 @@ func NewFilter(r ra.RemoteAccess) *Filter {
 
 func (f *Filter) FilterSubscriber(p peer.ID, t string) bool {
 	log.Info("FilterSubscriber")
+
+	if f.isFilterEnabled == false {
+		return true
+	}
 
 	var v bool
 
@@ -57,6 +67,13 @@ func (f *Filter) FilterPublisher(p peer.ID, ts []string) []bool {
 
 	var v bool
 	res := make([]bool, len(ts))
+
+	if f.isFilterEnabled == false {
+		for i := range ts {
+			res[i] = true
+		}
+		return res
+	}
 
 	for i, t := range ts {
 

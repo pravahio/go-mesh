@@ -6,7 +6,6 @@ import (
 
 	application "github.com/pravahio/go-mesh/application"
 	config "github.com/pravahio/go-mesh/config"
-	driver "github.com/pravahio/go-mesh/driver/eth"
 	ra "github.com/pravahio/go-mesh/interface/ra"
 	fpubsub "github.com/pravahio/go-mesh/pubsub"
 	bs "github.com/pravahio/go-mesh/service/bootstrap"
@@ -50,21 +49,21 @@ func NewMesh(ctx context.Context, opt ...config.Option) (*Mesh, error) {
 		return nil, err
 	}
 
-	ethDriver, err := driver.NewEthDriver(cfg.RemoteAccessURI, cfg.RemoteAccessPrivateKey)
+	/* ethDriver, err := driver.NewEthDriver(cfg.RemoteAccessURI, cfg.RemoteAccessPrivateKey)
 	if err != nil {
 		return nil, err
-	}
+	} */
 
 	bservice := bs.NewBootstrapService(false, cfg.BootstrapRendezvous, cfg.BootstrapNodes, cfg.BootstrapRefreshRate)
 	app.InjectService(bservice)
 
-	f := fpubsub.NewFilter(ethDriver)
+	f := fpubsub.NewFilter(nil)
 	app.SetGossipPeerFilter(f)
 
 	return &Mesh{
 		Cfg:          cfg,
 		app:          app,
-		remoteAccess: ethDriver,
+		remoteAccess: nil,
 		bootService:  bservice,
 	}, nil
 }

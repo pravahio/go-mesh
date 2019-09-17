@@ -5,6 +5,12 @@ import (
 )
 
 func (pubService *PublisherService) RegisterToPublish(topic string) error {
+
+	// Temp disabled RA service
+	if pubService.ra == nil {
+		return nil
+	}
+
 	host := pubService.GetHost()
 	err := pubService.ra.Publish(host.ID(), topic)
 	if err != nil {

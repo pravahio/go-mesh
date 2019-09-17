@@ -7,7 +7,7 @@ Pravah is an open source data exchange platform for high velocity or real-time d
 ## Prerequisite
 
 1. git
-2. go
+2. go == v1.12.*
 3. make
 4. gcc
 _____________
@@ -51,6 +51,8 @@ Instead of passing them as flags we can use a json based config file `(config.js
 
 This config file tells the mesh client to find more peers at `publicBus` rendezvous point, use `account.msa` account file and print all debug logs `("debug": "true")`.
 
+A sample config file is avaiable [here](docs/config.json)
+
 _______
 
 ## For data subscribers
@@ -65,7 +67,7 @@ To get realtime data you need to fire up `mesh` as a subscriber and connect via 
 
 This can be done by running `mesh` with `en-sub` flag.
 ```
-mesh -c config.json --en-sub
+mesh -c docs/config.json --en-sub
 ```
 
 This will do multiple things. First of all it will find other peers at `rnz` point and connect to them. Then it will start an RPC server at default port `5555`.
@@ -108,7 +110,7 @@ _______
 
 This can be done by running `mesh` with `en-pub` flag.
 ```
-mesh -c config.json --en-pub
+mesh -c docs/config.json --en-pub
 ```
 
 2. Once `mesh` client is up and running we can connect with it via RPC and start publishing.

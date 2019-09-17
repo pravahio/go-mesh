@@ -70,7 +70,7 @@ This can be done by running `mesh` with `en-sub` flag.
 mesh -c docs/config.json --en-sub
 ```
 
-This will do multiple things. First of all it will find other peers at `rnz` point and connect to them. Then it will start an RPC server at default port `5555`.
+This will do multiple things. First of all it will find other peers at `rnz` point and connect to them. It will then start an RPC server at default port `5555`.
 
 >Note: If you want to use js client for mesh-gtfsr, you need to enable web RPC using `--web-rpc` flag. Without this you won't be able to connect to mesh RPC through a browser. Web RPC runs on a different port (Default: `5556`)
 
@@ -113,7 +113,7 @@ This can be done by running `mesh` with `en-pub` flag.
 mesh -c docs/config.json --en-pub
 ```
 
-2. Once `mesh` client is up and running we can connect with it via RPC and start publishing.
+2. Once `mesh` client is up and running we can connect to it via RPC and start publishing.
 
 Assuming we want to publish GTFS-Realtime data. Python client for `mesh-gtfsr` can be found here.
 

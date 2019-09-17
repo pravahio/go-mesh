@@ -14,7 +14,7 @@ import (
 	"github.com/pravahio/go-mesh/application"
 	cfg "github.com/pravahio/go-mesh/config"
 	bs "github.com/pravahio/go-mesh/service/bootstrap"
-	cli "gopkg.in/urfave/cli.v1"
+	cli "github.com/urfave/cli"
 )
 
 const (

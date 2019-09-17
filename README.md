@@ -8,6 +8,7 @@ Pravah is an open source data exchange platform for high velocity or real-time d
 1. git
 2. go
 3. make
+4. gcc
 _____________
 ## Installation
 
@@ -68,7 +69,7 @@ mesh -c config.json --en-sub
 
 This will do multiple things. First of all it will find other peers at `rnz` point and connect to them. Then it will start an RPC server at default port `5555`.
 
->Note: If you want to use js client for mesh-gtfsr, you need to enable web RPC using `--web-rpc` flag. Without this you won't be able to connect to mesh RPC through a browser.
+>Note: If you want to use js client for mesh-gtfsr, you need to enable web RPC using `--web-rpc` flag. Without this you won't be able to connect to mesh RPC through a browser. Web RPC runs on a different port (Default: `5556`)
 
 2. Once `mesh` client is up and running we can connect with it via RPC.
 
@@ -87,7 +88,7 @@ def main():
   m = MeshGTFSR()
 
   feed = m.subscribe()
-    for f in feed:
+  for f in feed:
     print(f) 
 
 if "__main__" == __name__:

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	cli "gopkg.in/urfave/cli.v1"
+	cli "github.com/urfave/cli"
 
 	ethcrypto "github.com/ethereum/go-ethereum/crypto"
 	logging "github.com/ipfs/go-log"

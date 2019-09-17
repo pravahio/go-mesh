@@ -1,5 +1,6 @@
 Pravah.io
 =========
+![](https://github.com/pravahio/go-mesh/workflows/.github/workflows/go.yml/badge.svg)
 
 Pravah is an open source data exchange platform for high velocity or real-time data streams. Primary motivation to develop pravah is to ease data exchange between different cities 
 

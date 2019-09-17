@@ -8,4 +8,4 @@ install:
 	go install ./cmd/mesh/
 
 tar: build
-	tar -czvf ./bin/mesh-v0.0.4-osx.tar.gz ./bin/mesh
+	tar -czvf ./bin/mesh-v0.0.5-osx.tar.gz ./bin/mesh

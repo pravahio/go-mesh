@@ -21,7 +21,7 @@ var (
 
 func init() {
 	app.Name = "mesh"
-	app.Version = "v0.0.4"
+	app.Version = "v0.0.5"
 	app.Usage = "go-mesh command line interface"
 	app.Description = "go-mesh command line interface"
 	app.Authors = []cli.Author{

@@ -6,7 +6,8 @@ import (
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 )
 
-func (subService *SubscriberService) SubscribeToTopic(topic string) (chan *pubsub.Message, error) {
+// SubscribeToTopics subscribes to multiple topics and outputs all into a single chan.
+func (subService *SubscriberService) SubscribeToTopics(topics []string) (chan *pubsub.Message, error) {
 	// Temp disabled RA service
 	if subService.ra != nil {
 
@@ -14,9 +15,12 @@ func (subService *SubscriberService) SubscribeToTopic(topic string) (chan *pubsu
 		// 2. Subscribe to pubsub
 
 		host := subService.GetHost()
-		err := subService.ra.Subscribe(host.ID(), string(topic))
-		if err != nil {
-			return nil, err
+
+		for _, topic := range topics {
+			err := subService.ra.Subscribe(host.ID(), string(topic))
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
@@ -28,35 +32,38 @@ func (subService *SubscriberService) SubscribeToTopic(topic string) (chan *pubsu
 		return nil, errors.New("subscriber router is nil")
 	}
 
-	sub, err := subRouter.Subscribe(topic)
-	if err != nil {
-		return nil, err
-	}
-
-	subService.topicTracker[topic] = &TopicWrapper{
-		subscription: sub,
-	}
-
 	msg := make(chan *pubsub.Message, 100)
 
-	go func() {
-		for {
-			select {
-			case <-subService.ctx.Done():
-				close(msg)
-				return
-			default:
-			}
+	for _, topic := range topics {
 
-			m, err := sub.Next(subService.ctx)
-			if err != nil {
-				continue
-			}
-
-			msg <- m
+		sub, err := subRouter.Subscribe(topic)
+		if err != nil {
+			return nil, err
 		}
 
-	}()
+		subService.topicTracker[topic] = &TopicWrapper{
+			subscription: sub,
+		}
+
+		go func(subs *pubsub.Subscription) {
+			for {
+				select {
+				case <-subService.ctx.Done():
+					close(msg)
+					return
+				default:
+				}
+
+				m, err := subs.Next(subService.ctx)
+				if err != nil {
+					continue
+				}
+
+				msg <- m
+			}
+
+		}(sub)
+	}
 
 	return msg, nil
 }

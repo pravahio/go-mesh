@@ -63,7 +63,7 @@ You can quickly test out the platform by following the guide in this repo.
 
 To get realtime data you need to fire up `mesh` as a subscriber and connect via RPC.
 
-1. Running `mesh` as a subscriber node
+**1. Running `mesh` as a subscriber node**
 
 This can be done by running `mesh` with `en-sub` flag.
 ```
@@ -74,7 +74,7 @@ This will do multiple things. First of all it will find other peers at `rnz` poi
 
 >Note: If you want to use js client for mesh-gtfsr, you need to enable web RPC using `--web-rpc` flag. Without this you won't be able to connect to mesh RPC through a browser. Web RPC runs on a different port (Default: `5556`)
 
-2. Once `mesh` client is up and running we can connect with it via RPC.
+**2. Once `mesh` client is up and running we can connect with it via RPC**
 
 Assuming we want to consume GTFS-Realtime data. Python client for `mesh-gtfsr` can be found here.
 
@@ -83,14 +83,17 @@ Install it with
 pip3 install mesh-gtfsr
 ```
 
-Now we can start consuming GTFS-Realtime data.
+Now we can start consuming GTFS-Realtime data for some specific *geospace*. `Delhi` in the given example. [Here](https://github.com/pravahio/go-mesh/wiki/Geospaces) you can find a list of all available *geospaces*.
 ```py
 from mesh_gtfsr.mesh import MeshGTFSR
 
 def main():
   m = MeshGTFSR()
 
-  feed = m.subscribe()
+  feed = m.subscribe([
+		'/in/delhi'
+	])
+  
   for f in feed:
     print(f) 
 
@@ -106,14 +109,14 @@ _______
 
 ## For data publishers
 
-1. Running `mesh` as a publisher node
+**1. Running `mesh` as a publisher node**
 
 This can be done by running `mesh` with `en-pub` flag.
 ```
 mesh -c docs/config.json --en-pub
 ```
 
-2. Once `mesh` client is up and running we can connect to it via RPC and start publishing.
+**2. Once `mesh` client is up and running we can connect to it via RPC and start publishing.**
 
 Assuming we want to publish GTFS-Realtime data. Python client for `mesh-gtfsr` can be found here.
 

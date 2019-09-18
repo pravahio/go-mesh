@@ -12,11 +12,11 @@ func (s *Server) Subscribe(info *rpc.PeerTopicInfo, stream rpc.Mesh_SubscribeSer
 		return errors.New("RPC is not running as a subscriber")
 	}
 
-	log.Info("[RPC] Subscribing to ", info.GetTopic())
+	log.Info("[RPC] Subscribing to ", info.GetTopics())
 
 	//ctx := stream.Context()
 
-	msgChan, err := s.m.SubService.SubscribeToTopic(info.GetTopic())
+	msgChan, err := s.m.SubService.SubscribeToTopics(info.GetTopics())
 	if err != nil {
 		log.Error(err)
 		return err
@@ -27,7 +27,8 @@ func (s *Server) Subscribe(info *rpc.PeerTopicInfo, stream rpc.Mesh_SubscribeSer
 		data := <-msgChan
 
 		err := stream.Send(&rpc.Data{
-			Raw: data.GetData(),
+			Topic: data.GetTopicIDs(),
+			Raw:   data.GetData(),
 		})
 
 		if err != nil {

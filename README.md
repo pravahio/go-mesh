@@ -91,8 +91,8 @@ def main():
   m = MeshGTFSR()
 
   feed = m.subscribe([
-		'/in/delhi'
-	])
+    '/in/delhi'
+  ])
   
   for f in feed:
     print(f) 
@@ -131,6 +131,10 @@ Now we can start publishing GTFS-Realtime data.
 import time
 from mesh_gtfsr.mesh import MeshGTFSR
 
+GEOSPACE = [
+  '/in/delhi'
+]
+
 def main():
   m = MeshGTFSR()
 
@@ -149,8 +153,8 @@ def main():
     }]
   }
 
-  m.registerToPublish()
-  m.publish(rt)
+  m.registerToPublish(GEOSPACE)
+  m.publish(GEOSPACE, rt)
 
 if "__main__" == __name__:
   main()

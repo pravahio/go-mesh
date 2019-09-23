@@ -97,7 +97,8 @@ def main():
   # You get feed in 'f'
   # and geospace in 'g
   for f, g in feed:
-    print(f) 
+    print('Geospace: ' + g)
+    print('Feed: ' + str(f)) 
 
 if "__main__" == __name__:
   main()

@@ -206,7 +206,8 @@ func applyNodeType(p bool, s bool, m *mclient.Mesh) {
 	if p {
 		log.Info("Configured as a publisher node.")
 		m.AddPublisher()
-	} else if s {
+	}
+	if s {
 		log.Info("Configured as a subscriber node.")
 		m.AddSubscriber()
 	}

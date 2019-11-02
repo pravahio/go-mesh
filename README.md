@@ -2,7 +2,9 @@ Pravah.io
 =========
 ![](https://github.com/pravahio/go-mesh/workflows/Go/badge.svg)
 
-Pravah is an open source data exchange platform for high velocity or real-time data streams. Primary motivation to develop pravah is to ease data exchange between different cities 
+Pravah is an open source data exchange platform for smart cities with a focus on high velocity or real-time data.
+
+We envision to connect different stakeholders in a smart city like data producers and consumers to each other to enable a data economy, improve collaboration and simplify access to real-time data. High data quality, low latency, well-defined data sharing standards and easy deployability across different platforms are some of the goals we are looking towards. This would enable anyone to build integrated mobility applications from multi-modal route planning to inter-connected traffic signals managing traffic using AI.
 
 ## Prerequisite
 

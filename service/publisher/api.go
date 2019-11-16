@@ -26,6 +26,26 @@ func (pubService *PublisherService) RegisterToPublish(topics []string) error {
 	return nil
 }
 
+func (pubService *PublisherService) UnregisterToPublish(topics []string) error {
+	// Temp disabled RA service
+	if pubService.ra == nil {
+		return nil
+	}
+
+	host := pubService.GetHost()
+
+	for _, topic := range topics {
+		// TODO: This is a blocking call and won't return until trasaction is finalised.
+		// Better to parallalise it somehow.
+		err := pubService.ra.Unpublish(host.ID(), topic)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 // PublishData takes some data and publishes it to all given topics.
 func (pubService *PublisherService) PublishData(data []byte, topics []string) error {
 	pubRouter := pubService.GetPubSub()

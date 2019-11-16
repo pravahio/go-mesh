@@ -28,7 +28,7 @@ var (
 )
 
 // EthABI is the input ABI used to generate the binding from.
-const EthABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"a\",\"type\":\"address\"},{\"name\":\"topic\",\"type\":\"string\"}],\"name\":\"subscribe\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"a\",\"type\":\"address\"},{\"name\":\"topic\",\"type\":\"string\"}],\"name\":\"isPeerAPublisher\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"a\",\"type\":\"address\"},{\"name\":\"topic\",\"type\":\"string\"}],\"name\":\"publish\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"a\",\"type\":\"address\"},{\"name\":\"topic\",\"type\":\"string\"}],\"name\":\"isPeerSubscribed\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}]"
+const EthABI = "[{\"constant\":false,\"inputs\":[{\"name\":\"a\",\"type\":\"address\"},{\"name\":\"topic\",\"type\":\"string\"}],\"name\":\"subscribe\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"a\",\"type\":\"address\"},{\"name\":\"topic\",\"type\":\"string\"}],\"name\":\"isPeerAPublisher\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"a\",\"type\":\"address\"},{\"name\":\"topic\",\"type\":\"string\"}],\"name\":\"unpublish\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"a\",\"type\":\"address\"},{\"name\":\"topic\",\"type\":\"string\"}],\"name\":\"publish\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"name\":\"a\",\"type\":\"address\"},{\"name\":\"topic\",\"type\":\"string\"}],\"name\":\"isPeerSubscribed\",\"outputs\":[{\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"a\",\"type\":\"address\"},{\"name\":\"topic\",\"type\":\"string\"}],\"name\":\"unsubscribe\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]"
 
 // Eth is an auto generated Go binding around an Ethereum contract.
 type Eth struct {
@@ -264,4 +264,46 @@ func (_Eth *EthSession) Subscribe(a common.Address, topic string) (*types.Transa
 // Solidity: function subscribe(address a, string topic) returns()
 func (_Eth *EthTransactorSession) Subscribe(a common.Address, topic string) (*types.Transaction, error) {
 	return _Eth.Contract.Subscribe(&_Eth.TransactOpts, a, topic)
+}
+
+// Unpublish is a paid mutator transaction binding the contract method 0x8d3eca25.
+//
+// Solidity: function unpublish(address a, string topic) returns()
+func (_Eth *EthTransactor) Unpublish(opts *bind.TransactOpts, a common.Address, topic string) (*types.Transaction, error) {
+	return _Eth.contract.Transact(opts, "unpublish", a, topic)
+}
+
+// Unpublish is a paid mutator transaction binding the contract method 0x8d3eca25.
+//
+// Solidity: function unpublish(address a, string topic) returns()
+func (_Eth *EthSession) Unpublish(a common.Address, topic string) (*types.Transaction, error) {
+	return _Eth.Contract.Unpublish(&_Eth.TransactOpts, a, topic)
+}
+
+// Unpublish is a paid mutator transaction binding the contract method 0x8d3eca25.
+//
+// Solidity: function unpublish(address a, string topic) returns()
+func (_Eth *EthTransactorSession) Unpublish(a common.Address, topic string) (*types.Transaction, error) {
+	return _Eth.Contract.Unpublish(&_Eth.TransactOpts, a, topic)
+}
+
+// Unsubscribe is a paid mutator transaction binding the contract method 0xcf74f1d5.
+//
+// Solidity: function unsubscribe(address a, string topic) returns()
+func (_Eth *EthTransactor) Unsubscribe(opts *bind.TransactOpts, a common.Address, topic string) (*types.Transaction, error) {
+	return _Eth.contract.Transact(opts, "unsubscribe", a, topic)
+}
+
+// Unsubscribe is a paid mutator transaction binding the contract method 0xcf74f1d5.
+//
+// Solidity: function unsubscribe(address a, string topic) returns()
+func (_Eth *EthSession) Unsubscribe(a common.Address, topic string) (*types.Transaction, error) {
+	return _Eth.Contract.Unsubscribe(&_Eth.TransactOpts, a, topic)
+}
+
+// Unsubscribe is a paid mutator transaction binding the contract method 0xcf74f1d5.
+//
+// Solidity: function unsubscribe(address a, string topic) returns()
+func (_Eth *EthTransactorSession) Unsubscribe(a common.Address, topic string) (*types.Transaction, error) {
+	return _Eth.Contract.Unsubscribe(&_Eth.TransactOpts, a, topic)
 }

@@ -67,3 +67,28 @@ func (subService *SubscriberService) SubscribeToTopics(topics []string) (chan *p
 
 	return msg, nil
 }
+
+// UnsubscribeToTopics will unregister from the remote access and close the subscription channel
+func (subService *SubscriberService) UnsubscribeToTopics(topics []string) error {
+	if subService.ra != nil {
+
+		// 1. Register on the blockchain
+		// 2. Subscribe to pubsub
+
+		host := subService.GetHost()
+
+		for _, topic := range topics {
+			err := subService.ra.Unsubscribe(host.ID(), string(topic))
+			if err != nil {
+				return err
+			}
+		}
+	}
+
+	for _, topic := range topics {
+		subService.topicTracker[topic].subscription.Cancel()
+		subService.topicTracker[topic] = nil
+	}
+
+	return nil
+}

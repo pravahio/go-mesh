@@ -25,6 +25,24 @@ func (s *Server) RegisterToPublish(ctx context.Context, info *rpc.PeerTopicInfo)
 	}, nil
 }
 
+// UnregisterToPublish unregister a peer and topic with the remote access server.
+func (s *Server) UnregisterToPublish(ctx context.Context, info *rpc.PeerTopicInfo) (*rpc.Response, error) {
+	if s.m.PubService == nil {
+		return nil, errors.New("RPC is not running as a publisher")
+	}
+
+	err := s.m.PubService.UnregisterToPublish(info.GetTopics())
+	if err != nil {
+		return nil, err
+	}
+
+	log.Info("[RPC] Unregistered to publish on ", info.GetTopics())
+
+	return &rpc.Response{
+		Message: "ok",
+	}, nil
+}
+
 // Publish serves a publish request over RPC
 func (s *Server) Publish(ctx context.Context, data *rpc.PublishData) (*rpc.Response, error) {
 

@@ -39,3 +39,19 @@ func (s *Server) Subscribe(info *rpc.PeerTopicInfo, stream rpc.Mesh_SubscribeSer
 	}
 
 }
+
+// Unsubscribe serves an unsubscribe request over RPC
+func (s *Server) Unsubscribe(info *rpc.PeerTopicInfo) error {
+	if s.m.SubService == nil {
+		return errors.New("RPC is not running as a subscriber")
+	}
+
+	log.Info("[RPC] Unsubscribing to ", info.GetTopics())
+
+	err := s.m.SubService.UnsubscribeToTopics(info.GetTopics())
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+	return nil
+}

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package rpc;
+package in.soket.rpc;
 
 service Mesh {
     rpc RegisterToPublish(PeerTopicInfo) returns (Response) {}

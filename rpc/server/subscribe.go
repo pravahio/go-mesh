@@ -1,6 +1,7 @@
 package server
 
 import (
+	"context"
 	"errors"
 
 	rpc "github.com/pravahio/go-mesh/rpc"
@@ -38,4 +39,23 @@ func (s *Server) Subscribe(info *rpc.PeerTopicInfo, stream rpc.Mesh_SubscribeSer
 		log.Info("RPC Data Sent: ", err)
 	}
 
+}
+
+// Unsubscribe serves an unsubscribe request over RPC
+func (s *Server) Unsubscribe(ctx context.Context, info *rpc.PeerTopicInfo) (*rpc.Response, error) {
+	if s.m.SubService == nil {
+		return nil, errors.New("RPC is not running as a subscriber")
+	}
+
+	log.Info("[RPC] Unsubscribing to ", info.GetTopics())
+
+	err := s.m.SubService.UnsubscribeToTopics(info.GetTopics())
+	if err != nil {
+		log.Error(err)
+		return nil, err
+	}
+
+	return &rpc.Response{
+		Message: "ok",
+	}, nil
 }

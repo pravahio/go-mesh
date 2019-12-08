@@ -16,10 +16,18 @@ contract Mesh {
         userMap[a].userType = UserType.Sub;
         userMap[a].topicList[topic] = true;
     }
+
+    function unsubscribe(address a, string memory topic) public {
+        userMap[a].topicList[topic] = false;
+    }
     
     function publish(address a, string memory topic) public {
         userMap[a].userType = UserType.Pub;
         userMap[a].topicList[topic] = true;
+    }
+
+    function unpublish(address a, string memory topic) public {
+        userMap[a].topicList[topic] = false;
     }
     
     function isPeerAPublisher(address a, string memory topic) public view returns (bool) {

@@ -95,6 +95,43 @@ func (eth *EthDriver) Subscribe(p peer.ID, topic string) error {
 	return errors.New("Something happened with the transaction")
 }
 
+func (eth *EthDriver) Unsubscribe(p peer.ID, topic string) error {
+
+	fromAddress := crypto.PubkeyToAddress(eth.key.PublicKey)
+	log.Info("Pub Address: ", fromAddress.String())
+	nonce, err := eth.client.PendingNonceAt(context.Background(), fromAddress)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	eth.opt.Nonce = big.NewInt(int64(nonce))
+
+	a, err := libp2pToEthAccount(p)
+	if err != nil {
+		return err
+	}
+	log.Info("Address: ", a.String())
+
+	t, err := eth.ether.Unsubscribe(eth.opt, a, topic)
+	if err != nil {
+		return err
+	}
+	log.Info("Trans Hash: ", t.Hash().String())
+
+	for i := 0; i < TRIES; i++ {
+		rec, err := eth.client.TransactionReceipt(context.Background(), t.Hash())
+		if err == nil {
+			log.Info("Transaction is success", rec.Status == types.ReceiptStatusSuccessful)
+			return nil
+		}
+		log.Info("Transaction pending", err)
+
+		time.Sleep(triesInterval)
+	}
+
+	return errors.New("Something happened with the transaction")
+}
+
 func (eth *EthDriver) Publish(p peer.ID, topic string) error {
 	fromAddress := crypto.PubkeyToAddress(eth.key.PublicKey)
 	log.Info("Pub Address: ", fromAddress.String())
@@ -112,6 +149,42 @@ func (eth *EthDriver) Publish(p peer.ID, topic string) error {
 	log.Info("Address: ", a.String())
 
 	t, err := eth.ether.Publish(eth.opt, a, topic)
+	if err != nil {
+		return err
+	}
+	log.Info("Trans Hash: ", t.Hash().String())
+
+	for i := 0; i < TRIES; i++ {
+		rec, err := eth.client.TransactionReceipt(context.Background(), t.Hash())
+		if err == nil {
+			log.Info("Transaction is success", rec.Status == types.ReceiptStatusSuccessful)
+			return nil
+		}
+		log.Info("Transaction pending", err)
+
+		time.Sleep(triesInterval)
+	}
+
+	return errors.New("Something happened with the transaction")
+}
+
+func (eth *EthDriver) Unpublish(p peer.ID, topic string) error {
+	fromAddress := crypto.PubkeyToAddress(eth.key.PublicKey)
+	log.Info("Pub Address: ", fromAddress.String())
+	nonce, err := eth.client.PendingNonceAt(context.Background(), fromAddress)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	eth.opt.Nonce = big.NewInt(int64(nonce))
+
+	a, err := libp2pToEthAccount(p)
+	if err != nil {
+		return err
+	}
+	log.Info("Address: ", a.String())
+
+	t, err := eth.ether.Unpublish(eth.opt, a, topic)
 	if err != nil {
 		return err
 	}

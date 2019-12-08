@@ -1,11 +1,13 @@
 syntax = "proto3";
 
-package rpc;
+package in.soket.rpc;
 
 service Mesh {
     rpc RegisterToPublish(PeerTopicInfo) returns (Response) {}
+    rpc UnregisterToPublish(PeerTopicInfo) returns (Response) {}
     rpc Publish(PublishData) returns (Response) {}
     rpc Subscribe(PeerTopicInfo) returns (stream Data) {}
+    rpc Unsubscribe(PeerTopicInfo) returns (Response) {}
 }
 
 message PeerTopicInfo {

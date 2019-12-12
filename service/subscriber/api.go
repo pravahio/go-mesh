@@ -56,7 +56,9 @@ func (subService *SubscriberService) SubscribeToTopics(topics []string) (chan *p
 
 				m, err := subs.Next(subService.ctx)
 				if err != nil {
-					continue
+					log.Error(err)
+					close(msg)
+					return
 				}
 
 				msg <- m

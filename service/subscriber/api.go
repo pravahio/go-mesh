@@ -92,7 +92,11 @@ func (subService *SubscriberService) UnsubscribeToTopics(topics []string) error 
 		if !ok {
 			return errors.New("topic not found in the list of subscribed topics")
 		}
-		tw.subscription.Cancel()
+		sub := tw.subscription
+		if sub == nil {
+			return errors.New("Sub router is nil")
+		}
+		sub.Cancel()
 		subService.topicTracker[topic] = nil
 	}
 

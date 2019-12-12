@@ -106,7 +106,7 @@ if "__main__" == __name__:
   main()
 ```
 
-`feed` is a tuple of `(feed:FeedMessage, geospace:string`  as defined in [GTFS-Realtime specs](https://github.com/google/transit/blob/master/gtfs-realtime/proto/gtfs-realtime.proto)
+`feed` is a tuple of `(feed:FeedMessage, geospace:string)`  as defined in [GTFS-Realtime specs](https://github.com/google/transit/blob/master/gtfs-realtime/proto/gtfs-realtime.proto)
 
 If you want to get the data directly in the browser use the following guide.
 

@@ -25,7 +25,12 @@ func (s *Server) Subscribe(info *rpc.PeerTopicInfo, stream rpc.Mesh_SubscribeSer
 
 	for {
 		// TODO: What id the chan is closed.
-		data := <-msgChan
+		data, ok := <-msgChan
+
+		if !ok {
+			log.Info("Sub channel is closed")
+			break
+		}
 
 		err := stream.Send(&rpc.Data{
 			Topic: data.GetTopicIDs(),
@@ -38,7 +43,7 @@ func (s *Server) Subscribe(info *rpc.PeerTopicInfo, stream rpc.Mesh_SubscribeSer
 		}
 		log.Info("RPC Data Sent: ", err)
 	}
-
+	return nil
 }
 
 // Unsubscribe serves an unsubscribe request over RPC

@@ -86,7 +86,11 @@ func (subService *SubscriberService) UnsubscribeToTopics(topics []string) error 
 	}
 
 	for _, topic := range topics {
-		subService.topicTracker[topic].subscription.Cancel()
+		tw, ok := subService.topicTracker[topic]
+		if !ok {
+			return errors.New("topic not found in the list of subscribed topics")
+		}
+		tw.subscription.Cancel()
 		subService.topicTracker[topic] = nil
 	}
 

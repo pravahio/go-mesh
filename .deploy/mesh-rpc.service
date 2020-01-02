@@ -1,0 +1,11 @@
+[Unit]
+Description=Deploy Pravah RPC service
+
+[Service]
+Type=simple
+User=ubuntu
+StandardOutput=syslog
+StandardError=syslog
+ExecStart=/home/ubuntu/go/bin/mesh -c /home/ubuntu/deploy-services/rpc-publisher/rpc-config.json
+Restart=always
+RestartSec=2

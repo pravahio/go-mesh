@@ -9,6 +9,7 @@ import (
 
 	json "encoding/json"
 
+	logging "github.com/ipfs/go-log"
 	cli "github.com/urfave/cli"
 )
 
@@ -17,6 +18,10 @@ type Config struct {
 }
 
 func NewConfig(ctx *cli.Context) *Config {
+	// Early logging
+	// TODO: Logging won't happen in config.go if debug is set in file.
+	applyLogs(ctx.Bool(DEBUG))
+
 	c := &Config{
 		ConfigMap: make(map[string]string),
 	}
@@ -93,4 +98,25 @@ func (c *Config) String(n string) string {
 		return val
 	}
 	return ""
+}
+
+func applyLogs(b bool) {
+	if b {
+		logging.SetLogLevel("mesh-cli", "DEBUG")
+		logging.SetLogLevel("rpc-server", "DEBUG")
+		logging.SetLogLevel("application", "DEBUG")
+		//logging.SetLogLevel("svc-bootstrap", "DEBUG")
+		logging.SetLogLevel("application", "DEBUG")
+		logging.SetLogLevel("svc-publisher", "DEBUG")
+		logging.SetLogLevel("fpubsub", "DEBUG")
+		logging.SetLogLevel("pubsub", "DEBUG")
+		logging.SetLogLevel("eth-driver", "DEBUG")
+		/* logging.SetLogLevel("dht", "DEBUG")
+		logging.SetLogLevel("relay", "DEBUG")
+		logging.SetLogLevel("net/identify", "DEBUG") */
+		/* logging.SetLogLevel("autonat", "DEBUG")
+		logging.SetLogLevel("autorelay", "DEBUG")
+		logging.SetLogLevel("basichost", "DEBUG")
+		logging.SetLogLevel("net/identify", "DEBUG") */
+	}
 }

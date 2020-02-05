@@ -60,6 +60,7 @@ func BoostrapCommandHandler(ctx *cli.Context) {
 	if f := ctx.String(ACCOUNT); f != "" {
 		m, err := readFromFile(f)
 		if err != nil {
+			fmt.Println("Error reading the account file: ", err)
 			return
 		}
 

@@ -18,6 +18,8 @@ const (
 	LISTEN_ADDRESS    = "la"
 	RPC_LA            = "rpc-la"
 	WEB_RPC_LA        = "web-rpc-la"
+	RPC_CERT_PATH     = "rpc-cert-path"
+	RPC_KEY_PATH      = "rpc-key-path"
 )
 
 var (
@@ -84,6 +86,16 @@ var (
 	webRPCLA = cli.StringFlag{
 		Name:  WEB_RPC_LA,
 		Usage: "web RPC will listen on this address [127.0.0.1:4445]",
+	}
+
+	rpcCertPath = cli.StringFlag{
+		Name:  RPC_CERT_PATH,
+		Usage: "Certificate [public key] file path for RPC",
+	}
+
+	rpcKeyPath = cli.StringFlag{
+		Name:  RPC_KEY_PATH,
+		Usage: "Key [private key] file path for RPC",
 	}
 )
 

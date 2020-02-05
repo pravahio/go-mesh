@@ -42,6 +42,8 @@ func init() {
 		lisAdd,
 		rpcLA,
 		webRPCLA,
+		rpcCertPath,
+		rpcKeyPath,
 	}
 	app.Commands = []cli.Command{
 		accountCommand,
@@ -52,8 +54,6 @@ func init() {
 func mesh(ctx *cli.Context) {
 
 	c := NewConfig(ctx)
-
-	applyLogs(c.Bool(DEBUG))
 
 	accL, accR := applyAccountFile(c.String(ACCOUNT_FILE))
 
@@ -85,7 +85,15 @@ func mesh(ctx *cli.Context) {
 		m,
 	)
 
-	applyRPC(m.Cfg, c.Bool(ENABLE_WEB_RPC), c.Bool(DISABLE_RPC), c.String(RPC_LA), c.String(WEB_RPC_LA))
+	applyRPC(
+		m.Cfg,
+		c.Bool(ENABLE_WEB_RPC),
+		c.Bool(DISABLE_RPC),
+		c.String(RPC_LA),
+		c.String(WEB_RPC_LA),
+		c.String(RPC_CERT_PATH),
+		c.String(RPC_KEY_PATH),
+	)
 	rpcs, err := rpc.NewServer(m)
 	if err != nil {
 		log.Fatal(err)
@@ -151,7 +159,7 @@ func applyAccountFile(fn string) (config.Option, config.Option) {
 		}
 }
 
-func applyRPC(m *config.Config, enWeb, disRaw bool, rpcLA, webRPCLA string) {
+func applyRPC(m *config.Config, enWeb, disRaw bool, rpcLA, webRPCLA, certPath, keyPath string) {
 	if disRaw {
 		m.RPC = []config.RPCConfig{}
 	} else {
@@ -178,6 +186,11 @@ func applyRPC(m *config.Config, enWeb, disRaw bool, rpcLA, webRPCLA string) {
 			Endpoint: endpoint,
 			Mode:     "web",
 		})
+	}
+
+	for i := range m.RPC {
+		m.RPC[i].CertPath = certPath
+		m.RPC[i].KeyPath = keyPath
 	}
 }
 
@@ -210,26 +223,5 @@ func applyNodeType(p bool, s bool, m *mclient.Mesh) {
 	if s {
 		log.Info("Configured as a subscriber node.")
 		m.AddSubscriber()
-	}
-}
-
-func applyLogs(b bool) {
-	if b {
-		logging.SetLogLevel("mesh-cli", "DEBUG")
-		logging.SetLogLevel("rpc-server", "DEBUG")
-		logging.SetLogLevel("application", "DEBUG")
-		logging.SetLogLevel("svc-bootstrap", "DEBUG")
-		logging.SetLogLevel("application", "DEBUG")
-		logging.SetLogLevel("svc-publisher", "DEBUG")
-		logging.SetLogLevel("fpubsub", "DEBUG")
-		logging.SetLogLevel("pubsub", "DEBUG")
-		logging.SetLogLevel("eth-driver", "DEBUG")
-		/* logging.SetLogLevel("dht", "DEBUG")
-		logging.SetLogLevel("relay", "DEBUG")
-		logging.SetLogLevel("net/identify", "DEBUG") */
-		/* logging.SetLogLevel("autonat", "DEBUG")
-		logging.SetLogLevel("autorelay", "DEBUG")
-		logging.SetLogLevel("basichost", "DEBUG")
-		logging.SetLogLevel("net/identify", "DEBUG") */
 	}
 }

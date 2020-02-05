@@ -4,4 +4,6 @@ package config
 type RPCConfig struct {
 	Endpoint string
 	Mode     string
+	CertPath string
+	KeyPath  string
 }

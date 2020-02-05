@@ -12,6 +12,7 @@ import (
 	mesh "github.com/pravahio/go-mesh/mesh"
 	rpc "github.com/pravahio/go-mesh/rpc"
 	grpc "google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 var (
@@ -32,8 +33,9 @@ type LisServer struct {
 
 // Server is the RPC server and contains variables needed for RPC to work.
 type Server struct {
-	m    *mesh.Mesh
-	lmap map[string]*LisServer
+	m          *mesh.Mesh
+	lmap       map[string]*LisServer
+	serverOpts []grpc.ServerOption
 }
 
 // NewServer creates a new RPC server.
@@ -53,7 +55,12 @@ func NewServer(m *mesh.Mesh) (*Server, error) {
 }
 
 func (s *Server) registerRPC(rpcConfig []config.RPCConfig) error {
-
+	if len(rpcConfig) > 0 {
+		err := s.buildServerOptions(rpcConfig[0])
+		if err != nil {
+			return err
+		}
+	}
 	for _, r := range rpcConfig {
 		log.Info("RPC End: ", r.Endpoint)
 		lis, err := net.Listen("tcp", r.Endpoint)
@@ -69,8 +76,24 @@ func (s *Server) registerRPC(rpcConfig []config.RPCConfig) error {
 	return nil
 }
 
+func (s *Server) buildServerOptions(config config.RPCConfig) error {
+	if config.KeyPath == "" || config.CertPath == "" {
+		s.serverOpts = []grpc.ServerOption{}
+		log.Info("Both cert and key file paths are empty. Enabling insecure mode.")
+		return nil // Create an insecure connection
+	}
+	cred, err := credentials.NewServerTLSFromFile(config.CertPath, config.KeyPath)
+	if err != nil {
+		return err
+	}
+	s.serverOpts = []grpc.ServerOption{
+		grpc.Creds(cred),
+	}
+	return nil
+}
+
 func (s *Server) Start() {
-	grpcServer := grpc.NewServer()
+	grpcServer := grpc.NewServer(s.serverOpts...)
 	rpc.RegisterMeshServer(grpcServer, s)
 
 	for m, ls := range s.lmap {

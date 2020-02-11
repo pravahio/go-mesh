@@ -182,7 +182,7 @@ func boot(k crypto.PrivKey) {
 		true,
 	)
 	if err != nil {
-		log.Warning(err)
+		log.Error(err)
 		return
 	}
 

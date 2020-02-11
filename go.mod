@@ -7,7 +7,6 @@ require (
 	github.com/apilayer/freegeoip v3.5.0+incompatible // indirect
 	github.com/aristanetworks/goarista v0.0.0-20190712234253-ed1100a1c015 // indirect
 	github.com/bluele/gcache v0.0.0-20190518031135-bc40bd653833
-	github.com/btcsuite/btcd v0.0.0-20190614013741-962a206e94e9 // indirect
 	github.com/cespare/cp v1.1.1 // indirect
 	github.com/deckarep/golang-set v1.7.1 // indirect
 	github.com/docker/docker v1.13.1 // indirect
@@ -25,24 +24,23 @@ require (
 	github.com/ipfs/go-ipfs-addr v0.0.1
 	github.com/ipfs/go-log v0.0.1
 	github.com/karalabe/usb v0.0.0-20190819132248-550797b1cad8 // indirect
-	github.com/libp2p/go-libp2p v0.3.1
+	github.com/libp2p/go-libp2p v0.5.1
 	github.com/libp2p/go-libp2p-autonat-svc v0.1.0
-	github.com/libp2p/go-libp2p-circuit v0.1.1
-	github.com/libp2p/go-libp2p-core v0.2.2
-	github.com/libp2p/go-libp2p-discovery v0.1.0
-	github.com/libp2p/go-libp2p-kad-dht v0.2.1
-	github.com/libp2p/go-libp2p-peerstore v0.1.3
+	github.com/libp2p/go-libp2p-circuit v0.1.4
+	github.com/libp2p/go-libp2p-core v0.3.0
+	github.com/libp2p/go-libp2p-discovery v0.2.0
+	github.com/libp2p/go-libp2p-kad-dht v0.5.0
+	github.com/libp2p/go-libp2p-peerstore v0.1.4
 	github.com/libp2p/go-libp2p-pubsub v0.1.0
-	github.com/libp2p/go-libp2p-quic-transport v0.1.2-0.20190813044021-61a9a79cbf2e
-	github.com/libp2p/go-libp2p-routing v0.1.0
+	github.com/libp2p/go-libp2p-quic-transport v0.2.3
 	github.com/mattn/go-colorable v0.1.2 // indirect
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
-	github.com/multiformats/go-multihash v0.0.6 // indirect
 	github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f // indirect
 	github.com/olekukonko/tablewriter v0.0.1 // indirect
 	github.com/oschwald/maxminddb-golang v1.4.0 // indirect
 	github.com/pborman/uuid v1.2.0 // indirect
+	github.com/pravahio/go-auth-provider v0.0.0
 	github.com/prometheus/tsdb v0.10.0 // indirect
 	github.com/rjeczalik/notify v0.9.2 // indirect
 	github.com/rs/cors v1.7.0 // indirect
@@ -52,7 +50,6 @@ require (
 	github.com/tyler-smith/go-bip39 v1.0.2 // indirect
 	github.com/urfave/cli v1.22.0
 	github.com/wsddn/go-ecdh v0.0.0-20161211032359-48726bab9208 // indirect
-	golang.org/x/crypto v0.0.0-20190701094942-4def268fd1a4 // indirect
 	golang.org/x/net v0.0.0-20200202094626-16171245cfb2 // indirect
 	golang.org/x/sys v0.0.0-20200202164722-d101bd2416d5 // indirect
 	google.golang.org/genproto v0.0.0-20200204135345-fa8e72b47b90 // indirect
@@ -63,3 +60,5 @@ require (
 )
 
 replace github.com/libp2p/go-libp2p-pubsub v0.1.0 => github.com/upperwal/go-libp2p-pubsub v0.1.1-0.20190822125434-affd4e4c6c42
+
+replace github.com/pravahio/go-auth-provider v0.0.0 => ../auth/go-auth-provider

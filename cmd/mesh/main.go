@@ -44,6 +44,7 @@ func init() {
 		webRPCLA,
 		rpcCertPath,
 		rpcKeyPath,
+		authCrtPath,
 	}
 	app.Commands = []cli.Command{
 		accountCommand,
@@ -94,7 +95,7 @@ func mesh(ctx *cli.Context) {
 		c.String(RPC_CERT_PATH),
 		c.String(RPC_KEY_PATH),
 	)
-	rpcs, err := rpc.NewServer(m)
+	rpcs, err := rpc.NewServer(m, c.String(AUTH_CRT_PATH))
 	if err != nil {
 		log.Fatal(err)
 	}

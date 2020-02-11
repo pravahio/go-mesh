@@ -20,6 +20,7 @@ const (
 	WEB_RPC_LA        = "web-rpc-la"
 	RPC_CERT_PATH     = "rpc-cert-path"
 	RPC_KEY_PATH      = "rpc-key-path"
+	AUTH_CRT_PATH     = "auth-cert-path"
 )
 
 var (
@@ -96,6 +97,11 @@ var (
 	rpcKeyPath = cli.StringFlag{
 		Name:  RPC_KEY_PATH,
 		Usage: "Key [private key] file path for RPC",
+	}
+
+	authCrtPath = cli.StringFlag{
+		Name:  AUTH_CRT_PATH,
+		Usage: "Certificate [PEM] file path of the Auth server",
 	}
 )
 

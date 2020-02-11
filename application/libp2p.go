@@ -52,7 +52,7 @@ func (app *Application) startNode(ctx context.Context, privKey crypto.PrivKey, h
 		return err
 	}
 
-	log.Info("Host ID: ", host.ID().Pretty())
+	log.Info("Multiaddr: ", fmt.Sprintf("/ip4/%s/udp/%s/quic/p2p/%s", hostS, portS, host.ID().Pretty()))
 
 	app.h = host
 	app.l = libp2pNodeServices{}

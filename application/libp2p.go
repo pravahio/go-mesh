@@ -8,9 +8,9 @@ import (
 	circuit "github.com/libp2p/go-libp2p-circuit"
 	crypto "github.com/libp2p/go-libp2p-core/crypto"
 	host "github.com/libp2p/go-libp2p-core/host"
+	routing "github.com/libp2p/go-libp2p-core/routing"
 	dht "github.com/libp2p/go-libp2p-kad-dht"
 	floodsub "github.com/libp2p/go-libp2p-pubsub"
-	routing "github.com/libp2p/go-libp2p-routing"
 )
 
 type libp2pNodeServices struct {

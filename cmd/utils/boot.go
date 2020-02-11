@@ -171,7 +171,10 @@ func boot(k crypto.PrivKey) {
 	logging.SetLogLevel("relay", "DEBUG")
 	logging.SetLogLevel("net/identify", "DEBUG")
 	logging.SetLogLevel("autonat-svc", "DEBUG")
-	fmt.Println("Running Bootstrap node...")
+	logging.SetLogLevel("application", "DEBUG")
+	logging.SetLogLevel("cmd/utils", "DEBUG")
+
+	log.Info("Running Bootstrap node...")
 
 	app, err := application.NewApplication(
 		ctx,

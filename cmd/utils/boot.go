@@ -60,6 +60,7 @@ func BoostrapCommandHandler(ctx *cli.Context) {
 	if f := ctx.String(ACCOUNT); f != "" {
 		m, err := readFromFile(f)
 		if err != nil {
+			fmt.Println("Error reading the account file: ", err)
 			return
 		}
 
@@ -170,7 +171,10 @@ func boot(k crypto.PrivKey) {
 	logging.SetLogLevel("relay", "DEBUG")
 	logging.SetLogLevel("net/identify", "DEBUG")
 	logging.SetLogLevel("autonat-svc", "DEBUG")
-	fmt.Println("Running Bootstrap node...")
+	logging.SetLogLevel("application", "DEBUG")
+	logging.SetLogLevel("cmd/utils", "DEBUG")
+
+	log.Info("Running Bootstrap node...")
 
 	app, err := application.NewApplication(
 		ctx,
@@ -181,7 +185,7 @@ func boot(k crypto.PrivKey) {
 		true,
 	)
 	if err != nil {
-		log.Warning(err)
+		log.Error(err)
 		return
 	}
 

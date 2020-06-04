@@ -35,7 +35,7 @@ require (
 	github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f // indirect
 	github.com/oschwald/maxminddb-golang v1.4.0 // indirect
 	github.com/pborman/uuid v1.2.0 // indirect
-	github.com/pravahio/go-auth-provider v0.0.0
+	github.com/pravahio/go-auth-provider v0.0.0-20200604202501-46bd8062637c
 	github.com/prometheus/tsdb v0.10.0 // indirect
 	github.com/rjeczalik/notify v0.9.2 // indirect
 	github.com/rs/cors v1.7.0 // indirect

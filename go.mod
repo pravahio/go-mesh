@@ -50,5 +50,3 @@ require (
 )
 
 replace github.com/libp2p/go-libp2p-pubsub v0.1.0 => github.com/upperwal/go-libp2p-pubsub v0.1.1-0.20190822125434-affd4e4c6c42
-
-replace github.com/pravahio/go-auth-provider v0.0.0 => ../auth/go-auth-provider

@@ -146,7 +146,7 @@ func (s *Server) CleanUp() {
 func (s *Server) handleUnaryCall(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 	v, err := s.validateMetadata(ctx)
 	if err != nil || !v {
-		return nil, status.Errorf(codes.InvalidArgument, "missing metadata")
+		return nil, err
 	}
 	return handler(ctx, req)
 }
@@ -154,12 +154,13 @@ func (s *Server) handleUnaryCall(ctx context.Context, req interface{}, info *grp
 func (s *Server) handleStreamCall(srv interface{}, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
 	v, err := s.validateMetadata(ss.Context())
 	if err != nil || !v {
-		return errors.New("Not Valid")
+		return err
 	}
 	return handler(srv, ss)
 }
 
 func (s *Server) validateMetadata(ctx context.Context) (bool, error) {
+	log.Info("Incomming call")
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
 		return false, status.Errorf(codes.InvalidArgument, "missing metadata")
@@ -171,7 +172,11 @@ func (s *Server) validateMetadata(ctx context.Context) (bool, error) {
 	if len(sig) == 0 {
 		return false, errors.New("x-signature array is length 0")
 	}
-	return s.val.DecodeAndValidate(sig[0]), nil
+	val := s.val.DecodeAndValidate(sig[0])
+	if !val {
+		return false, errors.New("Validation failed")
+	}
+	return val, nil
 }
 
 func buildServer(s *grpc.Server, ty string) RPCServer {

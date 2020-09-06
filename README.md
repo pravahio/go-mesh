@@ -11,8 +11,8 @@ Pravah connects different stakeholders in a smart city like data producers and c
 Being a decentralised platform, a node needs to be deployed to interact with the Pravah network but it won't be a quick starter guide if you do the hard work. So, we did it for you. Let's directly dive into how you can subscribe and consume data from the network.
 
 Before we move forward, you need to understand two important concepts:
-1. A **Channel** describes the kind of data you want to consume. Every **Channel** will have an associated data standard, defined in protobuf. This will help you know how the incoming data would look even bore you start consuming it. An example is `/PublicBus` channel which gives you [GTFS-Realtime](https://github.com/google/transit/blob/master/gtfs-realtime/proto/gtfs-realtime.proto) data.
-2. Next up is a **Geospace** which describes the geobound of your dataset. So, say you want realtime public buses data for Delhi, India then the geospace will be `/in/delhi`. Pravah combine the channel and the geospace (`/PublicBus/in/delhi`) to create a unique data stream. A list of all available channels and geospaces are available [here](https://github.com/pravahio/go-mesh/wiki/Geospaces)
+1. A **Channel** describes the kind of data you want to consume. Every **Channel** will have an associated data standard, defined in protobuf. This will help you know how the incoming data would look even before you start consuming it. An example is `/PublicBus` channel which gives you [GTFS-Realtime](https://github.com/google/transit/blob/master/gtfs-realtime/proto/gtfs-realtime.proto) data.
+2. Next up is a **Geospace** which describes the geobound of your dataset. Say you want realtime public buses data for Delhi, India then the geospace will be `/in/delhi`. Pravah combine the channel and the geospace (`/PublicBus/in/delhi`) to create a unique data stream. A list of all available channels and geospaces are available [here](https://github.com/pravahio/go-mesh/wiki/Geospaces)
 
 That's it for theory, let's dive into the code.
 
